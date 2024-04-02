@@ -17,10 +17,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class KitapTurMapper {
 
-    private TurRepository turRepository;
-    private KitapRepository kitapRepository;
-    private TurMapper turMapper;
-    private KitapMapper kitapMapper;
+    private final TurRepository turRepository;
+    private final KitapRepository kitapRepository;
+    private final TurMapper turMapper;
+    private final KitapMapper kitapMapper;
 
     public KitapTur convertToEntity(KitapTurReq kitapTurReq) {
         return KitapTur.builder()

@@ -17,13 +17,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class KitapKullaniciMapper {
 
-    private KitapKullaniciRepository kitapKullaniciRepository;
-    private KitapRepository kitapRepository;
-    private KullaniciRepository kullaniciRepository;
-    private KutuphaneRepository kutuphaneRepository;
-    private KitapMapper kitapMapper;
-    private KullaniciMapper kullaniciMapper;
-    private KutuphaneMapper kutuphaneMapper;
+    private final KitapKullaniciRepository kitapKullaniciRepository;
+    private final KitapRepository kitapRepository;
+    private final KullaniciRepository kullaniciRepository;
+    private final KutuphaneRepository kutuphaneRepository;
+    private final KitapMapper kitapMapper;
+    private final KullaniciMapper kullaniciMapper;
+    private final KutuphaneMapper kutuphaneMapper;
 
     public KitapKullanici convertToEntity(KitapKullaniciReq kitapKullaniciReq) {
         return KitapKullanici.builder()

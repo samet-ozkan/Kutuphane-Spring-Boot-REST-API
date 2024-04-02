@@ -14,10 +14,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class KitapYazarMapper {
 
-    private KitapRepository kitapRepository;
-    private YazarRepository yazarRepository;
-    private KitapMapper kitapMapper;
-    private YazarMapper yazarMapper;
+    private final KitapRepository kitapRepository;
+    private final YazarRepository yazarRepository;
+    private final KitapMapper kitapMapper;
+    private final YazarMapper yazarMapper;
 
     public KitapYazar convertToEntity(KitapYazarReq kitapYazarReq) {
         return KitapYazar.builder()

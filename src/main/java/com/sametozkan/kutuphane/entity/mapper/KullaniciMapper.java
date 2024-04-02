@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class KullaniciMapper {
 
-    private KitapMapper kitapMapper;
+    private final KitapMapper kitapMapper;
 
     public Kullanici convertToEntity(KullaniciReq kullaniciReq) {
 

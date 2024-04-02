@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class YazarMapper {
 
-    private KitapMapper kitapMapper;
+    private final KitapMapper kitapMapper;
 
     public Yazar convertToEntity(YazarReq yazarReq) {
         return Yazar.builder()

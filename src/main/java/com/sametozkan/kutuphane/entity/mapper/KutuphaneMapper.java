@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class KutuphaneMapper {
 
-    private KitapMapper kitapMapper;
+    private final KitapMapper kitapMapper;
 
     public Kutuphane convertToEntity(KutuphaneReq kutuphaneReq) {
         return Kutuphane.builder()

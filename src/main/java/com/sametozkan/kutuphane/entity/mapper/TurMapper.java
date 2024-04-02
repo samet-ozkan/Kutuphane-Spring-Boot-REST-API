@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TurMapper {
 
-    private KitapMapper kitapMapper;
+    private final KitapMapper kitapMapper;
 
     public Tur convertToEntity(TurReq turReq) {
         return Tur.builder()
