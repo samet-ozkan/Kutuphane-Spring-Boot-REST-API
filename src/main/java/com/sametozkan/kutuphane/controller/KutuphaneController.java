@@ -16,11 +16,6 @@ public class KutuphaneController {
 
     private final KutuphaneService kutuphaneService;
 
-    @PostMapping
-    public void save(@RequestBody KutuphaneReq kutuphaneReq) {
-        kutuphaneService.save(kutuphaneReq);
-    }
-
     @PutMapping("/{id}")
     public void update(@PathVariable Long id, @RequestBody KutuphaneReq kutuphaneReq) {
         kutuphaneService.update(id, kutuphaneReq);

@@ -4,6 +4,7 @@ import com.sametozkan.kutuphane.entity.dto.request.KutuphaneReq;
 import com.sametozkan.kutuphane.entity.dto.response.KutuphaneRes;
 import com.sametozkan.kutuphane.entity.model.KitapKutuphane;
 import com.sametozkan.kutuphane.entity.model.Kutuphane;
+import com.sametozkan.kutuphane.entity.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,13 +16,13 @@ import java.util.stream.Collectors;
 public class KutuphaneMapper {
 
     private final KitapMapper kitapMapper;
+    private final AccountMapper accountMapper;
+    private final AccountRepository accountRepository;
 
     public Kutuphane convertToEntity(KutuphaneReq kutuphaneReq) {
         return Kutuphane.builder()
                 .adi(kutuphaneReq.getAdi())
-                .email(kutuphaneReq.getEmail())
                 .adresi(kutuphaneReq.getAdresi())
-                .password(kutuphaneReq.getPassword())
                 .teslimSuresi(kutuphaneReq.getTeslimSuresi())
                 .build();
     }
@@ -30,9 +31,9 @@ public class KutuphaneMapper {
         return KutuphaneRes.builder()
                 .id(kutuphane.getId())
                 .adi(kutuphane.getAdi())
-                .email(kutuphane.getEmail())
                 .adresi(kutuphane.getAdresi())
                 .teslimSuresi(kutuphane.getTeslimSuresi())
+                .account(accountMapper.convertToResponse(kutuphane.getAccount()))
                 .kitaplar(kitapMapper.convertToResponse(kutuphane.getKitaplar().stream().map(KitapKutuphane::getKitap).toList()))
                 .build();
     }

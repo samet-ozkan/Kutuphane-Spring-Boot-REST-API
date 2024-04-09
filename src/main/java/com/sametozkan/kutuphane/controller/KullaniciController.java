@@ -15,11 +15,6 @@ public class KullaniciController {
 
     private final KullaniciService kullaniciService;
 
-    @PostMapping
-    public void save(@RequestBody KullaniciReq kullaniciReq) {
-        kullaniciService.save(kullaniciReq);
-    }
-
     @PutMapping("/{id}")
     public void update(@PathVariable Long id, @RequestBody KullaniciReq kullaniciReq) {
         kullaniciService.update(id, kullaniciReq);

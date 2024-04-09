@@ -13,6 +13,7 @@ public class KutuphaneRes {
     private String adi;
     private String adresi;
     private String email;
+    private AccountRes account;
     private List<KitapRes> kitaplar;
     private Integer teslimSuresi;
 }

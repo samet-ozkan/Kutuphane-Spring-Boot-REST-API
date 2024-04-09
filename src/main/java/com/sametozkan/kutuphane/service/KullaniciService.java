@@ -3,6 +3,7 @@ package com.sametozkan.kutuphane.service;
 import com.sametozkan.kutuphane.entity.dto.request.KullaniciReq;
 import com.sametozkan.kutuphane.entity.dto.response.KullaniciRes;
 import com.sametozkan.kutuphane.entity.mapper.KullaniciMapper;
+import com.sametozkan.kutuphane.entity.model.Account;
 import com.sametozkan.kutuphane.entity.model.Kullanici;
 import com.sametozkan.kutuphane.entity.repository.KullaniciRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,8 +21,10 @@ public class KullaniciService {
     private final KullaniciMapper kullaniciMapper;
 
     @Transactional
-    public void save(KullaniciReq kullaniciReq) {
-        kullaniciRepository.save(kullaniciMapper.convertToEntity(kullaniciReq));
+    public void save(KullaniciReq kullaniciReq, Account account) {
+        Kullanici kullanici = kullaniciMapper.convertToEntity(kullaniciReq);
+        kullanici.setAccount(account);
+        kullaniciRepository.save(kullanici);
     }
 
     @Transactional
@@ -29,8 +32,6 @@ public class KullaniciService {
         Kullanici kullanici = kullaniciRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         kullanici.setAdi(kullaniciReq.getAdi());
         kullanici.setSoyadi(kullaniciReq.getSoyadi());
-        kullanici.setEmail(kullaniciReq.getEmail());
-        kullanici.setPassword(kullaniciReq.getPassword());
 
         kullaniciRepository.save(kullanici);
     }

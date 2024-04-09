@@ -1,5 +1,6 @@
 package com.sametozkan.kutuphane.entity.model;
 
+import com.sametozkan.kutuphane.entity.dto.request.AccountReq;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,11 +27,9 @@ public class Kullanici extends BaseEntity {
     @Column(name = "soyadi", nullable = false)
     private String soyadi;
 
-    @Column(name = "email", nullable = false, unique = true)
-    private String email;
-
-    @Column(name = "password", nullable = false)
-    private String password;
+    @OneToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 
     @OneToMany(mappedBy = "kullanici")
     private List<KitapKullanici> kitaplar;

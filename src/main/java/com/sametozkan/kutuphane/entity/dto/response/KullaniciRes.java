@@ -14,5 +14,6 @@ public class KullaniciRes {
     private String adi;
     private String soyadi;
     private String email;
+    private AccountRes account;
     private List<KitapRes> kitaplar;
 }

@@ -3,6 +3,7 @@ package com.sametozkan.kutuphane.service;
 import com.sametozkan.kutuphane.entity.dto.request.KutuphaneReq;
 import com.sametozkan.kutuphane.entity.dto.response.KutuphaneRes;
 import com.sametozkan.kutuphane.entity.mapper.KutuphaneMapper;
+import com.sametozkan.kutuphane.entity.model.Account;
 import com.sametozkan.kutuphane.entity.model.Kutuphane;
 import com.sametozkan.kutuphane.entity.repository.KutuphaneRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -20,8 +21,10 @@ public class KutuphaneService {
     private final KutuphaneRepository kutuphaneRepository;
 
     @Transactional
-    public void save(KutuphaneReq kutuphaneReq) {
-        kutuphaneRepository.save(kutuphaneMapper.convertToEntity(kutuphaneReq));
+    public void save(KutuphaneReq kutuphaneReq, Account account) {
+        Kutuphane kutuphane = kutuphaneMapper.convertToEntity(kutuphaneReq);
+        kutuphane.setAccount(account);
+        kutuphaneRepository.save(kutuphane);
     }
 
     @Transactional
@@ -29,8 +32,6 @@ public class KutuphaneService {
         Kutuphane kutuphane = kutuphaneRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         kutuphane.setAdi(kutuphaneReq.getAdi());
         kutuphane.setAdresi(kutuphaneReq.getAdresi());
-        kutuphane.setEmail(kutuphaneReq.getEmail());
-        kutuphane.setPassword(kutuphaneReq.getPassword());
         kutuphane.setTeslimSuresi(kutuphaneReq.getTeslimSuresi());
 
         kutuphaneRepository.save(kutuphane);
