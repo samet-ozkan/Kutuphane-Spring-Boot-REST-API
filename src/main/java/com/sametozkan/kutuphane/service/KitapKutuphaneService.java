@@ -29,13 +29,14 @@ public class KitapKutuphaneService {
         kitapKutuphaneRepository.save(kitapKutuphaneMapper.convertToEntity(kitapKutuphaneReq));
     }
 
-    public void update(Long id, KitapKutuphaneReq kitapKutuphaneReq) {
+    public KitapKutuphaneRes update(Long id, KitapKutuphaneReq kitapKutuphaneReq) {
         KitapKutuphane kitapKutuphane = kitapKutuphaneRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         kitapKutuphane.setKitap(kitapRepository.getReferenceById(kitapKutuphaneReq.getKitap_id()));
         kitapKutuphane.setKutuphane(kutuphaneRepository.getReferenceById(kitapKutuphaneReq.getKutuphane_id()));
         kitapKutuphane.setStok(kitapKutuphaneReq.getStok());
 
         kitapKutuphaneRepository.save(kitapKutuphane);
+        return kitapKutuphaneMapper.convertToResponse(kitapKutuphane);
     }
 
     public List<KitapKutuphaneRes> findAll() {

@@ -34,7 +34,7 @@ public class KitapService {
     }
 
     @Transactional
-    public void update(Long id, KitapReq kitapReq) {
+    public KitapRes update(Long id, KitapReq kitapReq) {
         Kitap kitap = kitapRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         kitap.setAdi(kitapReq.getAdi());
         kitap.setIsbn(kitapReq.getIsbn());
@@ -50,6 +50,9 @@ public class KitapService {
             kitap.setChatgptYorumu(null);
             kitap.setChatgptPuani(null);
         }
+
+        kitapRepository.save(kitap);
+        return kitapMapper.convertToResponse(kitap);
     }
 
     public List<KitapRes> findAll() {

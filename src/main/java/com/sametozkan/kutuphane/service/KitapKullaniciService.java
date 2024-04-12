@@ -32,7 +32,7 @@ public class KitapKullaniciService {
     }
 
     @Transactional
-    public void update(Long id, KitapKullaniciReq kitapKullaniciReq) {
+    public KitapKullaniciRes update(Long id, KitapKullaniciReq kitapKullaniciReq) {
         KitapKullanici kitapKullanici = kitapKullaniciRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         kitapKullanici.setKitap(kitapRepository.getReferenceById(kitapKullaniciReq.getKitapId()));
         kitapKullanici.setKullanici(kullaniciRepository.getReferenceById(kitapKullaniciReq.getKullaniciId()));
@@ -40,6 +40,7 @@ public class KitapKullaniciService {
         kitapKullanici.setIadeDurumu(kitapKullaniciReq.getIadeDurumu());
 
         kitapKullaniciRepository.save(kitapKullanici);
+        return kitapKullaniciMapper.convertToResponse(kitapKullanici);
     }
 
     public List<KitapKullaniciRes> findAll() {

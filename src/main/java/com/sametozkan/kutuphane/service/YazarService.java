@@ -26,12 +26,13 @@ public class YazarService {
     }
 
     @Transactional
-    public void update(Long id, YazarReq yazarReq) {
+    public YazarRes update(Long id, YazarReq yazarReq) {
         Yazar yazar = yazarRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         yazar.setAdi(yazarReq.getAdi());
         yazar.setSoyadi(yazarReq.getSoyadi());
 
         yazarRepository.save(yazar);
+        return yazarMapper.convertToResponse(yazar);
     }
 
     public List<YazarRes> findAll() {

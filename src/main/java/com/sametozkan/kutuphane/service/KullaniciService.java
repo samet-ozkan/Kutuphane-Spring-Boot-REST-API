@@ -28,12 +28,13 @@ public class KullaniciService {
     }
 
     @Transactional
-    public void update(Long id, KullaniciReq kullaniciReq) {
+    public KullaniciRes update(Long id, KullaniciReq kullaniciReq) {
         Kullanici kullanici = kullaniciRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         kullanici.setAdi(kullaniciReq.getAdi());
         kullanici.setSoyadi(kullaniciReq.getSoyadi());
 
         kullaniciRepository.save(kullanici);
+        return kullaniciMapper.convertToResponse(kullanici);
     }
 
     public List<KullaniciRes> findAll() {

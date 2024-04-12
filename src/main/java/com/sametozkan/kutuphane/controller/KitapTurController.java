@@ -4,6 +4,8 @@ import com.sametozkan.kutuphane.entity.dto.request.KitapTurReq;
 import com.sametozkan.kutuphane.entity.dto.response.KitapTurRes;
 import com.sametozkan.kutuphane.service.KitapTurService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,22 +18,26 @@ public class KitapTurController {
     private final KitapTurService kitapTurService;
 
     @PostMapping
-    public void save(@RequestBody KitapTurReq kitapTurReq) {
+    public ResponseEntity<Void> save(@RequestBody KitapTurReq kitapTurReq) {
         kitapTurService.save(kitapTurReq);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable Long id, @RequestBody KitapTurReq kitapTurReq) {
-        kitapTurService.update(id, kitapTurReq);
+    public ResponseEntity<KitapTurRes> update(@PathVariable Long id, @RequestBody KitapTurReq kitapTurReq) {
+        KitapTurRes kitapTurRes = kitapTurService.update(id, kitapTurReq);
+        return new ResponseEntity<>(kitapTurRes, HttpStatus.OK);
     }
 
     @GetMapping
-    public List<KitapTurRes> findAll() {
-        return kitapTurService.findAll();
+    public ResponseEntity<List<KitapTurRes>> findAll() {
+        List<KitapTurRes> kitapTurRes = kitapTurService.findAll();
+        return new ResponseEntity<>(kitapTurRes, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public KitapTurRes findById(@PathVariable Long id) {
-        return kitapTurService.findById(id);
+    public ResponseEntity<KitapTurRes> findById(@PathVariable Long id) {
+        KitapTurRes kitapTurRes = kitapTurService.findById(id);
+        return new ResponseEntity<>(kitapTurRes, HttpStatus.OK);
     }
 }

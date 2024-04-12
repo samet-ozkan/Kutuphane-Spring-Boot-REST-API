@@ -29,12 +29,13 @@ public class KitapYazarService {
     }
 
     @Transactional
-    public void update(Long id, KitapYazarReq kitapYazarReq) {
+    public KitapYazarRes update(Long id, KitapYazarReq kitapYazarReq) {
         KitapYazar kitapYazar = kitapYazarRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         kitapYazar.setKitap(kitapRepository.getReferenceById(kitapYazarReq.getKitap_id()));
         kitapYazar.setYazar(yazarRepository.getReferenceById(kitapYazarReq.getYazar_id()));
 
         kitapYazarRepository.save(kitapYazar);
+        return kitapYazarMapper.convertToResponse(kitapYazar);
     }
 
     public List<KitapYazarRes> findAll() {

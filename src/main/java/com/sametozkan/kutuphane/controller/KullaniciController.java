@@ -4,6 +4,8 @@ import com.sametozkan.kutuphane.entity.dto.request.KullaniciReq;
 import com.sametozkan.kutuphane.entity.dto.response.KullaniciRes;
 import com.sametozkan.kutuphane.service.KullaniciService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,17 +18,21 @@ public class KullaniciController {
     private final KullaniciService kullaniciService;
 
     @PutMapping("/{id}")
-    public void update(@PathVariable Long id, @RequestBody KullaniciReq kullaniciReq) {
-        kullaniciService.update(id, kullaniciReq);
+    public ResponseEntity<KullaniciRes> update(@PathVariable Long id, @RequestBody KullaniciReq kullaniciReq) {
+        KullaniciRes kullaniciRes = kullaniciService.update(id, kullaniciReq);
+        return new ResponseEntity<>(kullaniciRes, HttpStatus.OK);
     }
 
     @GetMapping
-    public List<KullaniciRes> findAll() {
-        return kullaniciService.findAll();
+    public ResponseEntity<List<KullaniciRes>> findAll() {
+        List<KullaniciRes> kullaniciResList = kullaniciService.findAll();
+        return new ResponseEntity<>(kullaniciResList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public KullaniciRes findById(@PathVariable Long id) {
-        return kullaniciService.findById(id);
+    public ResponseEntity<KullaniciRes> findById(@PathVariable Long id) {
+        KullaniciRes kullaniciRes = kullaniciService.findById(id);
+        return new ResponseEntity<>(kullaniciRes, HttpStatus.OK);
+
     }
 }

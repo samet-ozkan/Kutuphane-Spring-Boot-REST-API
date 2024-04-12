@@ -4,6 +4,8 @@ import com.sametozkan.kutuphane.entity.dto.request.KitapKutuphaneReq;
 import com.sametozkan.kutuphane.entity.dto.response.KitapKutuphaneRes;
 import com.sametozkan.kutuphane.service.KitapKutuphaneService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,22 +18,26 @@ public class KitapKutuphaneController {
     private final KitapKutuphaneService kitapKutuphaneService;
 
     @PostMapping
-    public void save(@RequestBody KitapKutuphaneReq kitapKutuphaneReq) {
+    public ResponseEntity<Void> save(@RequestBody KitapKutuphaneReq kitapKutuphaneReq) {
         kitapKutuphaneService.save(kitapKutuphaneReq);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable Long id, @RequestBody KitapKutuphaneReq kitapKutuphaneReq) {
-        kitapKutuphaneService.update(id, kitapKutuphaneReq);
+    public ResponseEntity<KitapKutuphaneRes> update(@PathVariable Long id, @RequestBody KitapKutuphaneReq kitapKutuphaneReq) {
+        KitapKutuphaneRes kitapKutuphaneRes = kitapKutuphaneService.update(id, kitapKutuphaneReq);
+        return new ResponseEntity<>(kitapKutuphaneRes, HttpStatus.OK);
     }
 
     @GetMapping
-    public List<KitapKutuphaneRes> findAll() {
-        return kitapKutuphaneService.findAll();
+    public ResponseEntity<List<KitapKutuphaneRes>> findAll() {
+        List<KitapKutuphaneRes> kitapKutuphaneResList = kitapKutuphaneService.findAll();
+        return new ResponseEntity<>(kitapKutuphaneResList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public KitapKutuphaneRes findById(@PathVariable Long id) {
-        return kitapKutuphaneService.findById(id);
+    public ResponseEntity<KitapKutuphaneRes> findById(@PathVariable Long id) {
+        KitapKutuphaneRes kitapKutuphaneRes = kitapKutuphaneService.findById(id);
+        return new ResponseEntity<>(kitapKutuphaneRes, HttpStatus.OK);
     }
 }

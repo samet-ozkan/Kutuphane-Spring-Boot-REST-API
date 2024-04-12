@@ -26,11 +26,12 @@ public class TurService {
     }
 
     @Transactional
-    public void update(Long id, TurReq turReq) {
+    public TurRes update(Long id, TurReq turReq) {
         Tur tur = turRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         tur.setTur(turReq.getTur());
 
         turRepository.save(tur);
+        return turMapper.convertToResponse(tur);
     }
 
     public List<TurRes> findAll() {

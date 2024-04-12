@@ -4,6 +4,8 @@ import com.sametozkan.kutuphane.entity.dto.request.AccountReq;
 import com.sametozkan.kutuphane.entity.dto.response.AccountRes;
 import com.sametozkan.kutuphane.service.AccountService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,12 +16,14 @@ public class AccountController {
     private final AccountService accountService;
 
     @PostMapping
-    public void save(@RequestBody AccountReq accountReq) {
+    public ResponseEntity<Void> save(@RequestBody AccountReq accountReq) {
         accountService.save(accountReq);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public AccountRes findById(@PathVariable Long id) {
-        return accountService.findById(id);
+    public ResponseEntity<AccountRes> findById(@PathVariable Long id) {
+        AccountRes accountRes = accountService.findById(id);
+        return new ResponseEntity<>(accountRes, HttpStatus.OK);
     }
 }

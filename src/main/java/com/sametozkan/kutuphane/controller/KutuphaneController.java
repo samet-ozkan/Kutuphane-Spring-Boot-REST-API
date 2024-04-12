@@ -4,6 +4,8 @@ import com.sametozkan.kutuphane.entity.dto.request.KutuphaneReq;
 import com.sametozkan.kutuphane.entity.dto.response.KutuphaneRes;
 import com.sametozkan.kutuphane.service.KutuphaneService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.stylesheets.LinkStyle;
 
@@ -17,17 +19,20 @@ public class KutuphaneController {
     private final KutuphaneService kutuphaneService;
 
     @PutMapping("/{id}")
-    public void update(@PathVariable Long id, @RequestBody KutuphaneReq kutuphaneReq) {
-        kutuphaneService.update(id, kutuphaneReq);
+    public ResponseEntity<KutuphaneRes> update(@PathVariable Long id, @RequestBody KutuphaneReq kutuphaneReq) {
+        KutuphaneRes kutuphaneRes = kutuphaneService.update(id, kutuphaneReq);
+        return new ResponseEntity<>(kutuphaneRes, HttpStatus.OK);
     }
 
     @GetMapping
-    public List<KutuphaneRes> findAll() {
-        return kutuphaneService.findAll();
+    public ResponseEntity<List<KutuphaneRes>> findAll() {
+        List<KutuphaneRes> kutuphaneResList = kutuphaneService.findAll();
+        return new ResponseEntity<>(kutuphaneResList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public KutuphaneRes findById(@PathVariable Long id) {
-        return kutuphaneService.findById(id);
+    public ResponseEntity<KutuphaneRes> findById(@PathVariable Long id) {
+        KutuphaneRes kutuphaneRes = kutuphaneService.findById(id);
+        return new ResponseEntity<>(kutuphaneRes, HttpStatus.OK);
     }
 }

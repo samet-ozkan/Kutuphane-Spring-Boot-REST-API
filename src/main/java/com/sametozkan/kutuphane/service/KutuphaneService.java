@@ -28,13 +28,14 @@ public class KutuphaneService {
     }
 
     @Transactional
-    public void update(Long id, KutuphaneReq kutuphaneReq) {
+    public KutuphaneRes update(Long id, KutuphaneReq kutuphaneReq) {
         Kutuphane kutuphane = kutuphaneRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         kutuphane.setAdi(kutuphaneReq.getAdi());
         kutuphane.setAdresi(kutuphaneReq.getAdresi());
         kutuphane.setTeslimSuresi(kutuphaneReq.getTeslimSuresi());
 
         kutuphaneRepository.save(kutuphane);
+        return kutuphaneMapper.convertToResponse(kutuphane);
     }
 
     public List<KutuphaneRes> findAll() {

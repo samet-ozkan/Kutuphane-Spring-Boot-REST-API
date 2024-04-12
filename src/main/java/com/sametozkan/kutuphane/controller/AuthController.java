@@ -6,6 +6,8 @@ import com.sametozkan.kutuphane.entity.dto.request.LoginReq;
 import com.sametozkan.kutuphane.entity.dto.response.JwtRes;
 import com.sametozkan.kutuphane.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,18 +21,20 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public JwtRes login(@RequestBody LoginReq loginReq) {
-        System.out.println(loginReq);
-        return authService.login(loginReq);
+    public ResponseEntity<JwtRes> login(@RequestBody LoginReq loginReq) {
+        JwtRes jwtRes = authService.login(loginReq);
+        return new ResponseEntity<>(jwtRes, HttpStatus.OK);
     }
 
     @PostMapping("/register/kutuphane")
-    public void registerKutuphane(@RequestBody KutuphaneRegisterReq kutuphaneRegisterReq) {
+    public ResponseEntity<Void> registerKutuphane(@RequestBody KutuphaneRegisterReq kutuphaneRegisterReq) {
         authService.registerKutuphane(kutuphaneRegisterReq);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/register/kullanici")
-    public void registerKullanici(@RequestBody KullaniciRegisterReq kullaniciRegisterReq) {
+    public ResponseEntity<Void> registerKullanici(@RequestBody KullaniciRegisterReq kullaniciRegisterReq) {
         authService.registerKullanici(kullaniciRegisterReq);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

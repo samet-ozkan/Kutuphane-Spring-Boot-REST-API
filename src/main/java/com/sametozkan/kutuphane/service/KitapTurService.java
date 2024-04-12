@@ -29,12 +29,13 @@ public class KitapTurService {
     }
 
     @Transactional
-    public void update(Long id, KitapTurReq kitapTurReq) {
+    public KitapTurRes update(Long id, KitapTurReq kitapTurReq) {
         KitapTur kitapTur = kitapTurRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         kitapTur.setTur(turRepository.getReferenceById(kitapTurReq.getTur_id()));
         kitapTur.setKitap(kitapRepository.getReferenceById(kitapTurReq.getKitap_id()));
 
         kitapTurRepository.save(kitapTur);
+        return kitapTurMapper.convertToResponse(kitapTur);
     }
 
     public List<KitapTurRes> findAll() {
