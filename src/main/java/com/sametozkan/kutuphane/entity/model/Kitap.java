@@ -1,12 +1,9 @@
 package com.sametozkan.kutuphane.entity.model;
 
-import com.sametozkan.kutuphane.entity.dto.request.KitapKutuphaneReq;
-import com.sametozkan.kutuphane.entity.dto.request.KitapReq;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "kitap")
@@ -28,17 +25,17 @@ public class Kitap extends BaseEntity {
     @Column(name = "adi", nullable = false)
     private String adi;
 
-    @Column(name = "yayin_yili", nullable = false)
-    private Integer yayinYili;
+    @Column(name = "yayin_tarihi", nullable = false)
+    private String yayinTarihi;
+
+    @Column(name = "dil", nullable = false)
+    private String dil;
+
+    @Column(name = "sayfa_sayisi", nullable = false)
+    private Integer sayfaSayisi;
 
     @Column(name = "aciklama", nullable = false)
     private String aciklama;
-
-    @Column(name = "chatgpt_puani")
-    private Double chatgptPuani;
-
-    @Column(name = "chatgpt_yorumu")
-    private String chatgptYorumu;
 
     @OneToMany(mappedBy = "kitap")
     List<KitapYazar> yazarlar;
@@ -51,8 +48,5 @@ public class Kitap extends BaseEntity {
 
     @OneToMany(mappedBy = "kitap")
     List<KitapKullanici> kullanicilar;
-
-    @Column(name = "otomatik_olusturuldu")
-    private Boolean otomatikOlusturuldu;
 
 }

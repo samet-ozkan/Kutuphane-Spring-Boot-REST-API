@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -19,14 +17,10 @@ public class KitapMapper {
                 .adi(kitapReq.getAdi())
                 .isbn(kitapReq.getIsbn())
                 .aciklama(kitapReq.getAciklama())
-                .yayinYili(kitapReq.getYayinYili())
-                .otomatikOlusturuldu(kitapReq.getOtomatikOlusturuldu())
+                .yayinTarihi(kitapReq.getYayinTarihi())
+                .dil(kitapReq.getDil())
+                .sayfaSayisi(kitapReq.getSayfaSayisi())
                 .build();
-
-        if (kitapReq.getOtomatikOlusturuldu()) {
-            kitap.setChatgptPuani(kitapReq.getChatgptPuani());
-            kitap.setChatgptYorumu(kitapReq.getChatgptYorumu());
-        }
 
         return kitap;
     }
@@ -36,7 +30,10 @@ public class KitapMapper {
                 .id(kitap.getId())
                 .isbn(kitap.getIsbn())
                 .adi(kitap.getAdi())
-                .yayinYili(kitap.getYayinYili())
+                .yayinTarihi(kitap.getYayinTarihi())
+                .dil(kitap.getDil())
+                .sayfaSayisi(kitap.getSayfaSayisi())
+                .sayfaSayisi(kitap.getSayfaSayisi())
                 .aciklama(kitap.getAciklama())
                 .build();
     }

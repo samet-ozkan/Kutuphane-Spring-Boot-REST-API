@@ -64,7 +64,9 @@ public class WebSecurityConfig {
                 registry
                         .addMapping("/**")
                         .allowedOrigins("https://localhost:4200", "http://localhost", "http://localhost:8080",
-                                "https://localhost:8080", "http://localhost:4200")
+                                "https://localhost:8080", "http://localhost:4200", "http://10.0.2.2", "http://10.0.2.2:8080",
+                                "http://192.168.111.58", "http://192.168.111.58:8080", "https://192.168.111.58",
+                                "https://192.168.111.58:8080")
                         .allowedMethods("*");
             }
         };
@@ -77,13 +79,14 @@ public class WebSecurityConfig {
 
         http.authorizeHttpRequests(authz -> {
             authz
-                    //.anyRequest().permitAll();
-                    .requestMatchers( "/api-docs/**",
+                    .anyRequest().permitAll();
+                    /*.requestMatchers( "/api-docs/**",
                             "/swagger-ui/**").permitAll()
                     .requestMatchers("/api/auth/login").permitAll()
                     .requestMatchers("/api/auth/register/kullanici").permitAll()
                     .requestMatchers("/api/auth/register/kutuphane").permitAll()
                     .anyRequest().authenticated();
+                     */
         });
 
 

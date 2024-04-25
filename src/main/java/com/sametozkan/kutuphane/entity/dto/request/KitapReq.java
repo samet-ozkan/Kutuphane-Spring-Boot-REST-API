@@ -1,22 +1,17 @@
 package com.sametozkan.kutuphane.entity.dto.request;
 
 import jakarta.annotation.Nullable;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
+@Builder
 public class KitapReq {
 
     private Long isbn;
     private String adi;
-    private Integer yayinYili;
+    private String yayinTarihi;
+    private String dil;
+    private Integer sayfaSayisi;
     private String aciklama;
-    @Nullable
-    private Double chatgptPuani;
-    @Nullable
-    private String chatgptYorumu;
-    private Boolean otomatikOlusturuldu;
 }
