@@ -46,4 +46,9 @@ public class KutuphaneService {
         Kutuphane kutuphane = kutuphaneRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         return kutuphaneMapper.convertToResponse(kutuphane);
     }
+
+    public KutuphaneRes findByAccountId(Long accountId) {
+        Kutuphane kutuphane = kutuphaneRepository.findByAccountId(accountId).orElseThrow(EntityNotFoundException::new);
+        return kutuphaneMapper.convertToResponse(kutuphane);
+    }
 }

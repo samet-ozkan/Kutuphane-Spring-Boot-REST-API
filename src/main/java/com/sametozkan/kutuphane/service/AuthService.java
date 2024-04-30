@@ -1,6 +1,7 @@
 package com.sametozkan.kutuphane.service;
 
 import com.sametozkan.kutuphane.config.jwt.JwtUtils;
+import com.sametozkan.kutuphane.config.jwt.UserDetailsImpl;
 import com.sametozkan.kutuphane.entity.dto.request.*;
 import com.sametozkan.kutuphane.entity.dto.response.JwtRes;
 import com.sametozkan.kutuphane.entity.model.Account;
@@ -37,14 +38,18 @@ public class AuthService {
 
     public JwtRes login(LoginReq loginReq) {
         try {
-            System.out.println("Login: " + loginReq);
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginReq.getEmail(), loginReq.getPassword()));
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            System.out.println("Authentication: " + authentication);
+
+            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             String jwt = jwtUtils.generateJwtToken(authentication);
-            System.out.println("JWT:" + jwt);
-            return JwtRes.builder().jwt(jwt).build();
+            return JwtRes.builder()
+                    .jwt(jwt)
+                    .accountId(userDetails.getId())
+                    .accountType(userDetails.getType())
+                    .email(userDetails.getUsername())
+                    .build();
         } catch (AuthenticationException e) {
             // Kimlik doğrulama hatası, uygun şekilde işleyin.
             e.printStackTrace(); // Hata mesajını yazdırın veya uygun şekilde işleyin.

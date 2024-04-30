@@ -35,4 +35,10 @@ public class KutuphaneController {
         KutuphaneRes kutuphaneRes = kutuphaneService.findById(id);
         return new ResponseEntity<>(kutuphaneRes, HttpStatus.OK);
     }
+
+    @GetMapping("/account/{accountId}")
+    public ResponseEntity<KutuphaneRes> findByAccountId(@PathVariable Long accountId){
+        KutuphaneRes kutuphaneRes = kutuphaneService.findByAccountId(accountId);
+        return new ResponseEntity<>(kutuphaneRes, HttpStatus.OK);
+    }
 }

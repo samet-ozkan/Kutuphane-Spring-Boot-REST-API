@@ -12,7 +12,6 @@ public class KutuphaneRes {
     private Long id;
     private String adi;
     private String adresi;
-    private String email;
     private AccountRes account;
     private List<KitapRes> kitaplar;
     private Integer teslimSuresi;

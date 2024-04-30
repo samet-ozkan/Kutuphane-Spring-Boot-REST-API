@@ -8,4 +8,7 @@ import lombok.Data;
 public class JwtRes {
 
     private String jwt;
+    private Long accountId;
+    private String accountType;
+    private String email;
 }
