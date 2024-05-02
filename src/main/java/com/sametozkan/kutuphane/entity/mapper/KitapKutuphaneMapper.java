@@ -16,10 +16,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class KitapKutuphaneMapper {
 
-    private KitapRepository kitapRepository;
-    private KutuphaneRepository kutuphaneRepository;
-    private KitapMapper kitapMapper;
-    private KutuphaneMapper kutuphaneMapper;
+    private final KitapRepository kitapRepository;
+    private final KutuphaneRepository kutuphaneRepository;
+    private final KitapMapper kitapMapper;
+    private final KutuphaneMapper kutuphaneMapper;
 
     public KitapKutuphane convertToEntity(KitapKutuphaneReq kitapKutuphaneReq) {
         return KitapKutuphane.builder()

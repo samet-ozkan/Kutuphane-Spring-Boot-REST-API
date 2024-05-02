@@ -1,9 +1,6 @@
 package com.sametozkan.kutuphane.service;
 
 import com.google.gson.Gson;
-import com.sametozkan.kutuphane.config.chatgpt.ChatRequest;
-import com.sametozkan.kutuphane.config.chatgpt.ChatResponse;
-import com.sametozkan.kutuphane.config.chatgpt.GptResponse;
 import com.sametozkan.kutuphane.config.googlebooks.BookResponse;
 import com.sametozkan.kutuphane.config.googlebooks.BooksClient;
 import com.sametozkan.kutuphane.config.googlebooks.VolumeInfo;
@@ -19,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,8 +32,8 @@ public class KitapService {
     private final BooksClient booksClient;
 
     @Transactional
-    public void save(KitapReq kitapReq) {
-        kitapRepository.save(kitapMapper.convertToEntity(kitapReq));
+    public Long save(KitapReq kitapReq) {
+        return kitapRepository.save(kitapMapper.convertToEntity(kitapReq)).getId();
     }
 
     @Transactional
@@ -56,6 +54,16 @@ public class KitapService {
     public KitapRes findById(Long id) {
         Kitap kitap = kitapRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         return kitapMapper.convertToResponse(kitap);
+    }
+
+    public KitapRes findByIsbn(Long isbn){
+        Optional<Kitap> kitap = kitapRepository.findByIsbn(isbn);
+        if(kitap.isPresent()){
+            return kitapMapper.convertToResponse(kitap.get());
+        }
+        else{
+            return null;
+        }
     }
 
     public KitapReq fetchByIsbn(Long isbn) {

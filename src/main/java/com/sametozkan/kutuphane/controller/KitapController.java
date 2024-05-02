@@ -1,14 +1,7 @@
 package com.sametozkan.kutuphane.controller;
 
-import com.google.gson.Gson;
-import com.sametozkan.kutuphane.config.chatgpt.ChatRequest;
-import com.sametozkan.kutuphane.config.chatgpt.ChatResponse;
 import com.sametozkan.kutuphane.config.chatgpt.GptClient;
-import com.sametozkan.kutuphane.config.chatgpt.GptResponse;
-import com.sametozkan.kutuphane.config.googlebooks.Book;
-import com.sametozkan.kutuphane.config.googlebooks.BookResponse;
 import com.sametozkan.kutuphane.config.googlebooks.BooksClient;
-import com.sametozkan.kutuphane.config.googlebooks.VolumeInfo;
 import com.sametozkan.kutuphane.entity.dto.request.KitapReq;
 import com.sametozkan.kutuphane.entity.dto.response.KitapRes;
 import com.sametozkan.kutuphane.service.KitapService;
@@ -18,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/kitap")
@@ -30,9 +22,9 @@ public class KitapController {
     private final GptClient gptClient;
 
     @PostMapping
-    public ResponseEntity<Void> save(@RequestBody KitapReq kitapReq) {
-        kitapService.save(kitapReq);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Long> save(@RequestBody KitapReq kitapReq) {
+        Long kitapId = kitapService.save(kitapReq);
+        return new ResponseEntity<Long>(kitapId, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
@@ -51,6 +43,15 @@ public class KitapController {
     public ResponseEntity<KitapRes> findById(@PathVariable Long id) {
         KitapRes kitapRes = kitapService.findById(id);
         return new ResponseEntity<>(kitapRes, HttpStatus.OK);
+    }
+
+    @GetMapping("/isbn/{isbn}")
+    public ResponseEntity<KitapRes> findByIsbn(@PathVariable Long isbn) {
+        KitapRes kitapRes = kitapService.findByIsbn(isbn);
+        if (kitapRes == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else
+            return new ResponseEntity<>(kitapRes, HttpStatus.OK);
     }
 
     @GetMapping("/fetch/{isbn}")
