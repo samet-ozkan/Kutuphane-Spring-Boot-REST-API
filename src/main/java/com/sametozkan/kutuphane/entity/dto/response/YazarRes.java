@@ -13,5 +13,4 @@ public class YazarRes {
     private Long id;
     private String adi;
     private String soyadi;
-    private List<KitapRes> kitaplar;
 }

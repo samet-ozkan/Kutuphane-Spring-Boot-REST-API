@@ -28,6 +28,10 @@ public class KitapYazarService {
         kitapYazarRepository.save(kitapYazarMapper.convertToEntity(kitapYazarReq));
     }
 
+    public List<KitapYazar> saveAll(List<KitapYazarReq> kitapYazarReqList) {
+        return kitapYazarRepository.saveAll(kitapYazarMapper.convertToEntity(kitapYazarReqList));
+    }
+
     @Transactional
     public KitapYazarRes update(Long id, KitapYazarReq kitapYazarReq) {
         KitapYazar kitapYazar = kitapYazarRepository.findById(id).orElseThrow(EntityNotFoundException::new);

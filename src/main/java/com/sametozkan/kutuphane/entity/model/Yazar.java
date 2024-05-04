@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "yazar")
+@Table(name = "yazar", uniqueConstraints = {@UniqueConstraint(columnNames = {"ad", "soyad"})})
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,7 +25,4 @@ public class Yazar extends BaseEntity {
 
     @Column(name = "soyadi", nullable = false)
     private String soyadi;
-
-    @OneToMany(mappedBy = "yazar")
-    List<KitapYazar> kitaplar;
 }

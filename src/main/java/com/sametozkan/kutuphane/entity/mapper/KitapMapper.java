@@ -12,6 +12,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class KitapMapper {
 
+    private final YazarMapper yazarMapper;
+    private final TurMapper turMapper;
+
     public Kitap convertToEntity(KitapReq kitapReq) {
         Kitap kitap = Kitap.builder()
                 .adi(kitapReq.getAdi())
@@ -33,8 +36,9 @@ public class KitapMapper {
                 .yayinTarihi(kitap.getYayinTarihi())
                 .dil(kitap.getDil())
                 .sayfaSayisi(kitap.getSayfaSayisi())
-                .sayfaSayisi(kitap.getSayfaSayisi())
                 .aciklama(kitap.getAciklama())
+                .yazarlar(kitap.getYazarlar().stream().map(kitapYazar -> yazarMapper.convertToResponse(kitapYazar.getYazar())).toList())
+                .turler(kitap.getTurler().stream().map(kitapTur -> turMapper.convertToResponse(kitapTur.getTur())).toList())
                 .build();
     }
 

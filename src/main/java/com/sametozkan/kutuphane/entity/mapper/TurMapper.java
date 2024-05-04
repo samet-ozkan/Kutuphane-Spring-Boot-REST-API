@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TurMapper {
 
-    private final KitapMapper kitapMapper;
 
     public Tur convertToEntity(TurReq turReq) {
         return Tur.builder()
@@ -22,11 +21,14 @@ public class TurMapper {
                 .build();
     }
 
+    public List<Tur> convertToEntity(List<TurReq> turReqList) {
+        return turReqList.stream().map(this::convertToEntity).toList();
+    }
+
     public TurRes convertToResponse(Tur tur) {
         return TurRes.builder()
                 .id(tur.getId())
                 .tur(tur.getTur())
-                .kitaplar(kitapMapper.convertToResponse(tur.getKitaplar().stream().map(KitapTur::getKitap).toList()))
                 .build();
     }
 

@@ -10,8 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +22,28 @@ public class YazarService {
     @Transactional
     public Yazar save(YazarReq yazarReq) {
         return yazarRepository.save(yazarMapper.convertToEntity(yazarReq));
+    }
+
+    public List<Yazar> saveAll(List<YazarReq> yazarReqList) {
+        List<Yazar> yazarlar = new ArrayList<>();
+        try {
+            Iterator<YazarReq> iterator = yazarReqList.iterator();
+            while (iterator.hasNext()) {
+                YazarReq yazarReq = iterator.next();
+                Optional<Yazar> yazar = findByAdiAndSoyadi(yazarReq.getAdi(), yazarReq.getSoyadi());
+                if (yazar.isPresent()) {
+                    yazarlar.add(yazar.get());
+                    iterator.remove();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!yazarReqList.isEmpty()) {
+            List<Yazar> savedYazarlar = yazarRepository.saveAll(yazarMapper.convertToEntity(yazarReqList));
+            yazarlar.addAll(savedYazarlar);
+        }
+        return yazarlar;
     }
 
     @Transactional

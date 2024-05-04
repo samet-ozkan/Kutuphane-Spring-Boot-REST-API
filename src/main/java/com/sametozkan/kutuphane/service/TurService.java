@@ -1,15 +1,19 @@
 package com.sametozkan.kutuphane.service;
 
 import com.sametozkan.kutuphane.entity.dto.request.TurReq;
+import com.sametozkan.kutuphane.entity.dto.request.YazarReq;
 import com.sametozkan.kutuphane.entity.dto.response.TurRes;
 import com.sametozkan.kutuphane.entity.mapper.TurMapper;
 import com.sametozkan.kutuphane.entity.model.Tur;
+import com.sametozkan.kutuphane.entity.model.Yazar;
 import com.sametozkan.kutuphane.entity.repository.TurRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +28,29 @@ public class TurService {
     public Tur save(TurReq turReq) {
         return turRepository.save(turMapper.convertToEntity(turReq));
     }
+
+    public List<Tur> saveAll(List<TurReq> turReqList) {
+        List<Tur> turler = new ArrayList<>();
+        try {
+            Iterator<TurReq> iterator = turReqList.iterator();
+            while (iterator.hasNext()) {
+                TurReq turReq = iterator.next();
+                Optional<Tur> tur = findByTur(turReq.getTur());
+                if (tur.isPresent()) {
+                    turler.add(tur.get());
+                    iterator.remove();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (!turReqList.isEmpty()) {
+            List<Tur> savedTurler = turRepository.saveAll(turMapper.convertToEntity(turReqList));
+            turler.addAll(savedTurler);
+        }
+        return turler;
+    }
+
 
     @Transactional
     public TurRes update(Long id, TurReq turReq) {

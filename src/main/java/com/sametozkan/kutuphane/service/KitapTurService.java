@@ -28,6 +28,10 @@ public class KitapTurService {
         kitapTurRepository.save(kitapTurMapper.convertToEntity(kitapTurReq));
     }
 
+    public List<KitapTur> saveAll(List<KitapTurReq> kitapTurReqList) {
+        return kitapTurRepository.saveAll(kitapTurMapper.convertToEntity(kitapTurReqList));
+    }
+
     @Transactional
     public KitapTurRes update(Long id, KitapTurReq kitapTurReq) {
         KitapTur kitapTur = kitapTurRepository.findById(id).orElseThrow(EntityNotFoundException::new);

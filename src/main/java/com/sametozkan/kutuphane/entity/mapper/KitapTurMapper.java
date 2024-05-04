@@ -29,6 +29,10 @@ public class KitapTurMapper {
                 .build();
     }
 
+    public List<KitapTur> convertToEntity(List<KitapTurReq> kitapTurReqList) {
+        return kitapTurReqList.stream().map(this::convertToEntity).toList();
+    }
+
     public KitapTurRes convertToResponse(KitapTur kitapTur) {
         return KitapTurRes.builder()
                 .id(kitapTur.getId())

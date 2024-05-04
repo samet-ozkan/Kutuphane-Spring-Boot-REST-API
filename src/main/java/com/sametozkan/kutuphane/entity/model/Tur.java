@@ -23,7 +23,5 @@ public class Tur extends BaseEntity {
     @Column(name = "tur", nullable = false, unique = true)
     private String tur;
 
-    @OneToMany(mappedBy = "tur")
-    List<KitapTur> kitaplar;
 
 }

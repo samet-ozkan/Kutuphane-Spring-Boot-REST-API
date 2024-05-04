@@ -12,4 +12,5 @@ public interface YazarRepository extends JpaRepository<Yazar, Long> {
 
     @Query(value = "SELECT * FROM yazar WHERE lower(adi) = lower(:adi) AND lower(soyadi) = lower(:soyadi)", nativeQuery = true)
     Optional<Yazar> findByAdiAndSoyadi(String adi, String soyadi);
+
 }

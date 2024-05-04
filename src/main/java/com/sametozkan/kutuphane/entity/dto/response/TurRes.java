@@ -11,5 +11,4 @@ import java.util.Set;
 public class TurRes {
     private Long id;
     private String tur;
-    private List<KitapRes> kitaplar;
 }

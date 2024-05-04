@@ -26,6 +26,10 @@ public class KitapYazarMapper {
                 .build();
     }
 
+    public List<KitapYazar> convertToEntity(List<KitapYazarReq> kitapYazarReqList) {
+        return kitapYazarReqList.stream().map(this::convertToEntity).toList();
+    }
+
     public KitapYazarRes convertToResponse(KitapYazar kitapYazar) {
         return KitapYazarRes.builder()
                 .id(kitapYazar.getId())

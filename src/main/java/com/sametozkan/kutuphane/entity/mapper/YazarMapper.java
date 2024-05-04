@@ -14,8 +14,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class YazarMapper {
 
-    private final KitapMapper kitapMapper;
-
     public Yazar convertToEntity(YazarReq yazarReq) {
         return Yazar.builder()
                 .adi(yazarReq.getAdi())
@@ -23,12 +21,15 @@ public class YazarMapper {
                 .build();
     }
 
+    public List<Yazar> convertToEntity(List<YazarReq> yazarReqList) {
+        return yazarReqList.stream().map(this::convertToEntity).toList();
+    }
+
     public YazarRes convertToResponse(Yazar yazar) {
         return YazarRes.builder()
                 .id(yazar.getId())
                 .adi(yazar.getAdi())
                 .soyadi(yazar.getSoyadi())
-                .kitaplar(kitapMapper.convertToResponse(yazar.getKitaplar().stream().map(KitapYazar::getKitap).toList()))
                 .build();
     }
 
