@@ -27,6 +27,9 @@ public class Kutuphane extends BaseEntity {
     @Column(name = "adresi", nullable = false)
     private String adresi;
 
+    @Column(name = "sehir", nullable = false)
+    private String sehir;
+
     @Column(name = "teslim_suresi", nullable = false)
     private Integer teslimSuresi;
 
@@ -39,4 +42,7 @@ public class Kutuphane extends BaseEntity {
 
     @OneToMany(mappedBy = "kutuphane")
     private List<KitapKullanici> kullanicilar;
+
+    @OneToMany(mappedBy = "kutuphane")
+    private List<KutuphaneYorum> yorumlar;
 }

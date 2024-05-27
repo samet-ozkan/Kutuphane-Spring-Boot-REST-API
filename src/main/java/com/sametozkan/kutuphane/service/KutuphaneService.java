@@ -2,7 +2,9 @@ package com.sametozkan.kutuphane.service;
 
 import com.sametozkan.kutuphane.entity.dto.request.KutuphaneReq;
 import com.sametozkan.kutuphane.entity.dto.response.KutuphaneRes;
+import com.sametozkan.kutuphane.entity.dto.response.KutuphaneYorumRes;
 import com.sametozkan.kutuphane.entity.mapper.KutuphaneMapper;
+import com.sametozkan.kutuphane.entity.mapper.KutuphaneYorumMapper;
 import com.sametozkan.kutuphane.entity.model.Account;
 import com.sametozkan.kutuphane.entity.model.Kutuphane;
 import com.sametozkan.kutuphane.entity.repository.KutuphaneRepository;

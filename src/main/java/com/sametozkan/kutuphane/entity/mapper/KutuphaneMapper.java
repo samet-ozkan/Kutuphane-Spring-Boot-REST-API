@@ -23,6 +23,7 @@ public class KutuphaneMapper {
         return Kutuphane.builder()
                 .adi(kutuphaneReq.getAdi())
                 .adresi(kutuphaneReq.getAdresi())
+                .sehir(kutuphaneReq.getSehir())
                 .teslimSuresi(kutuphaneReq.getTeslimSuresi())
                 .build();
     }
@@ -32,9 +33,11 @@ public class KutuphaneMapper {
                 .id(kutuphane.getId())
                 .adi(kutuphane.getAdi())
                 .adresi(kutuphane.getAdresi())
+                .sehir(kutuphane.getSehir())
                 .teslimSuresi(kutuphane.getTeslimSuresi())
                 .account(accountMapper.convertToResponse(kutuphane.getAccount()))
                 .kitaplar(kitapMapper.convertToResponse(kutuphane.getKitaplar().stream().map(KitapKutuphane::getKitap).toList()))
+
                 .build();
     }
 
