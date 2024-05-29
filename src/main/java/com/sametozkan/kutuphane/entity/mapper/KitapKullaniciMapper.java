@@ -3,6 +3,7 @@ package com.sametozkan.kutuphane.entity.mapper;
 import com.sametozkan.kutuphane.entity.dto.request.KitapKullaniciReq;
 import com.sametozkan.kutuphane.entity.dto.response.KitapKullaniciRes;
 import com.sametozkan.kutuphane.entity.model.KitapKullanici;
+import com.sametozkan.kutuphane.entity.model.Kullanici;
 import com.sametozkan.kutuphane.entity.repository.KitapKullaniciRepository;
 import com.sametozkan.kutuphane.entity.repository.KitapRepository;
 import com.sametozkan.kutuphane.entity.repository.KullaniciRepository;
@@ -26,9 +27,11 @@ public class KitapKullaniciMapper {
     private final KutuphaneMapper kutuphaneMapper;
 
     public KitapKullanici convertToEntity(KitapKullaniciReq kitapKullaniciReq) {
+        Kullanici kullanici = kullaniciRepository.findByAccountID(kitapKullaniciReq.getKullaniciId()).orElseThrow(EntityNotFoundException::new);
         return KitapKullanici.builder()
                 .kitap(kitapRepository.getReferenceById(kitapKullaniciReq.getKitapId()))
-                .kullanici(kullaniciRepository.getReferenceById(kitapKullaniciReq.getKullaniciId()))
+                .kutuphane(kutuphaneRepository.getReferenceById(kitapKullaniciReq.getKutuphaneId()))
+                .kullanici(kullanici)
                 .iadeDurumu(kitapKullaniciReq.getIadeDurumu())
                 .build();
     }
@@ -38,10 +41,10 @@ public class KitapKullaniciMapper {
                 .id(kitapKullanici.getId())
                 .kitap(kitapMapper.convertToResponse(kitapKullanici.getKitap()))
                 .kullanici(kullaniciMapper.convertToResponse(kitapKullanici.getKullanici()))
+                .kutuphane(kutuphaneMapper.convertToResponse(kitapKullanici.getKutuphane()))
                 .iadeDurumu(kitapKullanici.getIadeDurumu())
                 .alimTarihi(kitapKullanici.getAlimTarihi())
                 .teslimTarihi(kitapKullanici.getTeslimTarihi())
-                .kutuphane(kutuphaneMapper.convertToResponse(kitapKullanici.getKutuphane()))
                 .build();
     }
 }

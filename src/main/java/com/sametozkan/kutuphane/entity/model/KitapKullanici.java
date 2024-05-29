@@ -1,6 +1,5 @@
 package com.sametozkan.kutuphane.entity.model;
 
-import com.sametozkan.kutuphane.listener.KitapKullaniciListener;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,7 +11,6 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EntityListeners(KitapKullaniciListener.class)
 @Builder
 public class KitapKullanici extends BaseEntity {
 
@@ -33,12 +31,12 @@ public class KitapKullanici extends BaseEntity {
     @JoinColumn(name = "kutuphane_id", nullable = false)
     private Kutuphane kutuphane;
 
-    @Column(name = "alim_tarihi", nullable = false, updatable = false)
+    @Column(name = "alim_tarihi")
     private LocalDateTime alimTarihi;
 
-    @Column(name = "teslim_tarihi", nullable = false)
+    @Column(name = "teslim_tarihi")
     private LocalDateTime teslimTarihi;
 
-    @Column(name = "iade_durumu", nullable = false)
+    @Column(name = "iade_durumu")
     private Boolean iadeDurumu;
 }
