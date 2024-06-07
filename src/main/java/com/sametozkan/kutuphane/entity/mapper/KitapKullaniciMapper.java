@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class KitapKullaniciMapper {
@@ -45,6 +47,11 @@ public class KitapKullaniciMapper {
                 .iadeDurumu(kitapKullanici.getIadeDurumu())
                 .alimTarihi(kitapKullanici.getAlimTarihi())
                 .teslimTarihi(kitapKullanici.getTeslimTarihi())
+                .createdTime(kitapKullanici.getCreatedTime())
                 .build();
+    }
+
+    public List<KitapKullaniciRes> convertToResponse(List<KitapKullanici> kitapKullaniciList) {
+        return kitapKullaniciList.stream().map(this::convertToResponse).toList();
     }
 }

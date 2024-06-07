@@ -14,5 +14,6 @@ public class KitapKullaniciRes {
     private KullaniciRes kullanici;
     private LocalDateTime alimTarihi;
     private LocalDateTime teslimTarihi;
+    private LocalDateTime createdTime;
     private Boolean iadeDurumu;
 }

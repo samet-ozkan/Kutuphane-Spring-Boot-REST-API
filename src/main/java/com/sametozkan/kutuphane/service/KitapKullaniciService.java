@@ -4,6 +4,7 @@ import com.sametozkan.kutuphane.entity.dto.request.KitapKullaniciReq;
 import com.sametozkan.kutuphane.entity.dto.response.KitapKullaniciRes;
 import com.sametozkan.kutuphane.entity.mapper.KitapKullaniciMapper;
 import com.sametozkan.kutuphane.entity.model.KitapKullanici;
+import com.sametozkan.kutuphane.entity.model.Kullanici;
 import com.sametozkan.kutuphane.entity.repository.KitapKullaniciRepository;
 import com.sametozkan.kutuphane.entity.repository.KitapRepository;
 import com.sametozkan.kutuphane.entity.repository.KullaniciRepository;
@@ -52,5 +53,25 @@ public class KitapKullaniciService {
         return kitapKullaniciMapper.convertToResponse(kitapKullanici);
     }
 
+    public List<KitapKullaniciRes> findByKullaniciIdAndIadeDurumuIsNull(Long accountId) {
+        Kullanici kullanici = kullaniciRepository.findByAccountID(accountId).orElseThrow(EntityNotFoundException::new);
+        List<KitapKullanici> kitapKullaniciList = kitapKullaniciRepository.findByKullaniciIdAndIadeDurumuIsNull(kullanici.getId()).orElseThrow(EntityNotFoundException::new);
+        return kitapKullaniciMapper.convertToResponse(kitapKullaniciList);
+    }
 
+    public List<KitapKullaniciRes> findByKullaniciIdAndIadeDurumuIsFalse(Long accountId) {
+        Kullanici kullanici = kullaniciRepository.findByAccountID(accountId).orElseThrow(EntityNotFoundException::new);
+        List<KitapKullanici> kitapKullaniciList = kitapKullaniciRepository.findByKullaniciIdAndIadeDurumuIsFalse(kullanici.getId()).orElseThrow(EntityNotFoundException::new);
+        return kitapKullaniciMapper.convertToResponse(kitapKullaniciList);
+    }
+
+    public List<KitapKullaniciRes> findByKullaniciIdAndIadeDurumuIsTrue(Long accountId) {
+        Kullanici kullanici = kullaniciRepository.findByAccountID(accountId).orElseThrow(EntityNotFoundException::new);
+        List<KitapKullanici> kitapKullaniciList = kitapKullaniciRepository.findByKullaniciIdAndIadeDurumuIsTrue(kullanici.getId()).orElseThrow(EntityNotFoundException::new);
+        return kitapKullaniciMapper.convertToResponse(kitapKullaniciList);
+    }
+
+    public void deleteById(Long id){
+        kitapKullaniciRepository.deleteById(id);
+    }
 }

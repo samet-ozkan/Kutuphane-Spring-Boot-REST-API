@@ -39,4 +39,28 @@ public class KitapKullaniciController {
     public KitapKullaniciRes findById(@PathVariable Long id) {
         return kitapKullaniciService.findById(id);
     }
+
+    @GetMapping("/onay-bekleyenler/{accountId}")
+    public ResponseEntity<List<KitapKullaniciRes>> findByKullaniciIdAndIadeDurumuIsNull(@PathVariable Long accountId) {
+        List<KitapKullaniciRes> kitapKullaniciResList = kitapKullaniciService.findByKullaniciIdAndIadeDurumuIsNull(accountId);
+        return new ResponseEntity<>(kitapKullaniciResList, HttpStatus.OK);
+    }
+
+    @GetMapping("/mevcut/{accountId}")
+    public ResponseEntity<List<KitapKullaniciRes>> findByKullaniciIdAndIadeDurumuIsFalse(@PathVariable Long accountId) {
+        List<KitapKullaniciRes> kitapKullaniciResList = kitapKullaniciService.findByKullaniciIdAndIadeDurumuIsFalse(accountId);
+        return new ResponseEntity<>(kitapKullaniciResList, HttpStatus.OK);
+    }
+
+    @GetMapping("/gecmis/{accountId}")
+    public ResponseEntity<List<KitapKullaniciRes>> findByKullaniciIdAndIadeDurumuIsTrue(@PathVariable Long accountId) {
+        List<KitapKullaniciRes> kitapKullaniciResList = kitapKullaniciService.findByKullaniciIdAndIadeDurumuIsTrue(accountId);
+        return new ResponseEntity<>(kitapKullaniciResList, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        kitapKullaniciService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
