@@ -5,6 +5,7 @@ import com.sametozkan.kutuphane.entity.dto.response.KitapKullaniciRes;
 import com.sametozkan.kutuphane.entity.mapper.KitapKullaniciMapper;
 import com.sametozkan.kutuphane.entity.model.KitapKullanici;
 import com.sametozkan.kutuphane.entity.model.Kullanici;
+import com.sametozkan.kutuphane.entity.model.Kutuphane;
 import com.sametozkan.kutuphane.entity.repository.KitapKullaniciRepository;
 import com.sametozkan.kutuphane.entity.repository.KitapRepository;
 import com.sametozkan.kutuphane.entity.repository.KullaniciRepository;
@@ -14,8 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -53,25 +54,44 @@ public class KitapKullaniciService {
         return kitapKullaniciMapper.convertToResponse(kitapKullanici);
     }
 
-    public List<KitapKullaniciRes> findByKullaniciIdAndIadeDurumuIsNull(Long accountId) {
+    public List<KitapKullaniciRes> findByKullaniciIdAndOnaylandiIsNull(Long accountId) {
         Kullanici kullanici = kullaniciRepository.findByAccountID(accountId).orElseThrow(EntityNotFoundException::new);
-        List<KitapKullanici> kitapKullaniciList = kitapKullaniciRepository.findByKullaniciIdAndIadeDurumuIsNull(kullanici.getId()).orElseThrow(EntityNotFoundException::new);
+        List<KitapKullanici> kitapKullaniciList = kitapKullaniciRepository.findByKullaniciIdAndOnaylandiIsNull(kullanici.getId()).orElseThrow(EntityNotFoundException::new);
         return kitapKullaniciMapper.convertToResponse(kitapKullaniciList);
     }
 
-    public List<KitapKullaniciRes> findByKullaniciIdAndIadeDurumuIsFalse(Long accountId) {
+    public List<KitapKullaniciRes> findByKullaniciIdAndOnaylandiIsFalse(Long accountId) {
         Kullanici kullanici = kullaniciRepository.findByAccountID(accountId).orElseThrow(EntityNotFoundException::new);
-        List<KitapKullanici> kitapKullaniciList = kitapKullaniciRepository.findByKullaniciIdAndIadeDurumuIsFalse(kullanici.getId()).orElseThrow(EntityNotFoundException::new);
+        List<KitapKullanici> kitapKullaniciList = kitapKullaniciRepository.findByKullaniciIdAndOnaylandiIsFalse(kullanici.getId()).orElseThrow(EntityNotFoundException::new);
         return kitapKullaniciMapper.convertToResponse(kitapKullaniciList);
     }
 
-    public List<KitapKullaniciRes> findByKullaniciIdAndIadeDurumuIsTrue(Long accountId) {
+    public List<KitapKullaniciRes> findByKullaniciIdAndOnaylandiIsTrue(Long accountId) {
         Kullanici kullanici = kullaniciRepository.findByAccountID(accountId).orElseThrow(EntityNotFoundException::new);
-        List<KitapKullanici> kitapKullaniciList = kitapKullaniciRepository.findByKullaniciIdAndIadeDurumuIsTrue(kullanici.getId()).orElseThrow(EntityNotFoundException::new);
+        List<KitapKullanici> kitapKullaniciList = kitapKullaniciRepository.findByKullaniciIdAndOnaylandiIsTrue(kullanici.getId()).orElseThrow(EntityNotFoundException::new);
         return kitapKullaniciMapper.convertToResponse(kitapKullaniciList);
     }
 
-    public void deleteById(Long id){
+    public List<KitapKullaniciRes> findByKutuphaneId(Long accountId) {
+        Kutuphane kutuphane = kutuphaneRepository.findByAccountId(accountId).orElseThrow(EntityNotFoundException::new);
+        List<KitapKullanici> kitapKullaniciList = kitapKullaniciRepository.findByKutuphaneId(kutuphane.getId()).orElseThrow(EntityNotFoundException::new);
+        return kitapKullaniciMapper.convertToResponse(kitapKullaniciList);
+    }
+
+    public void kitapIstegiOnayla(Long kitapKullaniciId){
+        KitapKullanici kitapKullanici = kitapKullaniciRepository.findById(kitapKullaniciId).orElseThrow(EntityNotFoundException::new);
+        kitapKullanici.setOnaylandi(true);
+        kitapKullanici.setAlimTarihi(LocalDateTime.now());
+        kitapKullaniciRepository.save(kitapKullanici);
+    }
+
+    public void kitapIstegiReddet(Long kitapKullaniciId){
+        KitapKullanici kitapKullanici = kitapKullaniciRepository.findById(kitapKullaniciId).orElseThrow(EntityNotFoundException::new);
+        kitapKullanici.setOnaylandi(false);
+        kitapKullaniciRepository.save(kitapKullanici);
+    }
+
+    public void deleteById(Long id) {
         kitapKullaniciRepository.deleteById(id);
     }
 }

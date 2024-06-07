@@ -8,10 +8,8 @@ import com.sametozkan.kutuphane.entity.repository.KitapKullaniciRepository;
 import com.sametozkan.kutuphane.entity.repository.KitapRepository;
 import com.sametozkan.kutuphane.entity.repository.KullaniciRepository;
 import com.sametozkan.kutuphane.entity.repository.KutuphaneRepository;
-import com.sametozkan.kutuphane.util.Utils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -48,6 +46,8 @@ public class KitapKullaniciMapper {
                 .alimTarihi(kitapKullanici.getAlimTarihi())
                 .teslimTarihi(kitapKullanici.getTeslimTarihi())
                 .createdTime(kitapKullanici.getCreatedTime())
+                .iadeDurumu(kitapKullanici.getIadeDurumu())
+                .onaylandi(kitapKullanici.getOnaylandi())
                 .build();
     }
 

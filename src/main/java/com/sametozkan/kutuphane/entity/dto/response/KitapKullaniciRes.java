@@ -16,4 +16,5 @@ public class KitapKullaniciRes {
     private LocalDateTime teslimTarihi;
     private LocalDateTime createdTime;
     private Boolean iadeDurumu;
+    private Boolean onaylandi;
 }

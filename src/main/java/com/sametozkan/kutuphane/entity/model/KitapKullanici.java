@@ -37,6 +37,14 @@ public class KitapKullanici extends BaseEntity {
     @Column(name = "teslim_tarihi")
     private LocalDateTime teslimTarihi;
 
-    @Column(name = "iade_durumu")
+    @Column(name = "iade_durumu", nullable = false)
     private Boolean iadeDurumu;
+
+    @Column(name = "onaylandi")
+    private Boolean onaylandi;
+
+    @PrePersist
+    protected void onCreate() {
+        this.iadeDurumu = false;
+    }
 }

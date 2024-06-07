@@ -47,4 +47,6 @@ public class KitapKutuphaneService {
         KitapKutuphane kitapKutuphane = kitapKutuphaneRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         return kitapKutuphaneMapper.convertToResponse(kitapKutuphane);
     }
+
+    
 }

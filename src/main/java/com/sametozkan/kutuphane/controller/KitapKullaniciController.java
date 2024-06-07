@@ -2,9 +2,9 @@ package com.sametozkan.kutuphane.controller;
 
 import com.sametozkan.kutuphane.entity.dto.request.KitapKullaniciReq;
 import com.sametozkan.kutuphane.entity.dto.response.KitapKullaniciRes;
-import com.sametozkan.kutuphane.entity.model.KitapKullanici;
 import com.sametozkan.kutuphane.service.KitapKullaniciService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,21 +41,39 @@ public class KitapKullaniciController {
     }
 
     @GetMapping("/onay-bekleyenler/{accountId}")
-    public ResponseEntity<List<KitapKullaniciRes>> findByKullaniciIdAndIadeDurumuIsNull(@PathVariable Long accountId) {
-        List<KitapKullaniciRes> kitapKullaniciResList = kitapKullaniciService.findByKullaniciIdAndIadeDurumuIsNull(accountId);
+    public ResponseEntity<List<KitapKullaniciRes>> findByKullaniciIdAndOnaylandiIsNull(@PathVariable Long accountId) {
+        List<KitapKullaniciRes> kitapKullaniciResList = kitapKullaniciService.findByKullaniciIdAndOnaylandiIsNull(accountId);
         return new ResponseEntity<>(kitapKullaniciResList, HttpStatus.OK);
     }
 
-    @GetMapping("/mevcut/{accountId}")
-    public ResponseEntity<List<KitapKullaniciRes>> findByKullaniciIdAndIadeDurumuIsFalse(@PathVariable Long accountId) {
-        List<KitapKullaniciRes> kitapKullaniciResList = kitapKullaniciService.findByKullaniciIdAndIadeDurumuIsFalse(accountId);
+    @GetMapping("/onaylandi/{accountId}")
+    public ResponseEntity<List<KitapKullaniciRes>> findByKullaniciIdAndOnaylandiIsFalse(@PathVariable Long accountId) {
+        List<KitapKullaniciRes> kitapKullaniciResList = kitapKullaniciService.findByKullaniciIdAndOnaylandiIsFalse(accountId);
         return new ResponseEntity<>(kitapKullaniciResList, HttpStatus.OK);
     }
 
-    @GetMapping("/gecmis/{accountId}")
-    public ResponseEntity<List<KitapKullaniciRes>> findByKullaniciIdAndIadeDurumuIsTrue(@PathVariable Long accountId) {
-        List<KitapKullaniciRes> kitapKullaniciResList = kitapKullaniciService.findByKullaniciIdAndIadeDurumuIsTrue(accountId);
+    @GetMapping("/reddedildi/{accountId}")
+    public ResponseEntity<List<KitapKullaniciRes>> findByKullaniciIdAndOnaylandiIsTrue(@PathVariable Long accountId) {
+        List<KitapKullaniciRes> kitapKullaniciResList = kitapKullaniciService.findByKullaniciIdAndOnaylandiIsTrue(accountId);
         return new ResponseEntity<>(kitapKullaniciResList, HttpStatus.OK);
+    }
+
+    @GetMapping("/kutuphane/{accountId}")
+    public ResponseEntity<List<KitapKullaniciRes>> findByKutuphaneId(@PathVariable Long accountId) {
+        List<KitapKullaniciRes> kitapKullaniciResList = kitapKullaniciService.findByKutuphaneId(accountId);
+        return new ResponseEntity<>(kitapKullaniciResList, HttpStatus.OK);
+    }
+
+    @PostMapping("/onayla/{kitapKullaniciId}")
+    public ResponseEntity<Void> kitapIstegiOnayla(@PathVariable Long kitapKullaniciId) {
+        kitapKullaniciService.kitapIstegiOnayla(kitapKullaniciId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/reddet/{kitapKullaniciId}")
+    public ResponseEntity<Void> kitapIstegiReddet(@PathVariable Long kitapKullaniciId) {
+        kitapKullaniciService.kitapIstegiReddet(kitapKullaniciId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
