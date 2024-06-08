@@ -10,5 +10,4 @@ public class KitapKutuphaneRes {
     private Long id;
     private KitapRes kitap;
     private KutuphaneRes kutuphane;
-    private Integer stok;
 }

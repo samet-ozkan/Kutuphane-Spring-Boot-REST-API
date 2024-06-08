@@ -33,7 +33,6 @@ public class KitapKutuphaneService {
         KitapKutuphane kitapKutuphane = kitapKutuphaneRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         kitapKutuphane.setKitap(kitapRepository.getReferenceById(kitapKutuphaneReq.getKitap_id()));
         kitapKutuphane.setKutuphane(kutuphaneRepository.getReferenceById(kitapKutuphaneReq.getKutuphane_id()));
-        kitapKutuphane.setStok(kitapKutuphaneReq.getStok());
 
         kitapKutuphaneRepository.save(kitapKutuphane);
         return kitapKutuphaneMapper.convertToResponse(kitapKutuphane);

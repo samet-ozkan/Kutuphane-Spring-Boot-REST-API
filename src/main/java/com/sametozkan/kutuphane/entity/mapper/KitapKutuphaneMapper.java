@@ -25,7 +25,6 @@ public class KitapKutuphaneMapper {
         return KitapKutuphane.builder()
                 .kitap(kitapRepository.getReferenceById(kitapKutuphaneReq.getKitap_id()))
                 .kutuphane(kutuphaneRepository.getReferenceById(kitapKutuphaneReq.getKutuphane_id()))
-                .stok(kitapKutuphaneReq.getStok())
                 .build();
     }
 
@@ -34,7 +33,6 @@ public class KitapKutuphaneMapper {
                 .id(kitapKutuphane.getId())
                 .kutuphane(kutuphaneMapper.convertToResponse(kitapKutuphane.getKutuphane()))
                 .kitap(kitapMapper.convertToResponse(kitapKutuphane.getKitap()))
-                .stok(kitapKutuphane.getStok())
                 .build();
     }
 

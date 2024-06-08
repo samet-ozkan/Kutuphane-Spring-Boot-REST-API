@@ -25,6 +25,4 @@ public class KitapKutuphane extends BaseEntity {
     @JoinColumn(name = "kutuphane_id", nullable = false)
     private Kutuphane kutuphane;
 
-    @Column(name = "stok", nullable = false)
-    private Integer stok;
 }
