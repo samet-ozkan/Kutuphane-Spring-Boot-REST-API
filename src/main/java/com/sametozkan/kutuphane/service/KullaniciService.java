@@ -45,4 +45,9 @@ public class KullaniciService {
         Kullanici kullanici = kullaniciRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         return kullaniciMapper.convertToResponse(kullanici);
     }
+
+    public KullaniciRes findByAccountId(Long accountId) {
+        Kullanici kullanici = kullaniciRepository.findByAccountId(accountId).orElseThrow(EntityNotFoundException::new);
+        return kullaniciMapper.convertToResponse(kullanici);
+    }
 }

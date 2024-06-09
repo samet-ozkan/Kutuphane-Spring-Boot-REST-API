@@ -6,7 +6,6 @@ import com.sametozkan.kutuphane.entity.model.Kullanici;
 import com.sametozkan.kutuphane.entity.model.KutuphaneYorum;
 import com.sametozkan.kutuphane.entity.repository.KullaniciRepository;
 import com.sametozkan.kutuphane.entity.repository.KutuphaneRepository;
-import com.sametozkan.kutuphane.entity.repository.KutuphaneYorumRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -23,7 +22,7 @@ public class KutuphaneYorumMapper {
     private final KutuphaneMapper kutuphaneMapper;
 
     public KutuphaneYorum convertToEntity(KutuphaneYorumReq kutuphaneYorumReq) {
-        Kullanici kullanici = kullaniciRepository.findByAccountID(kutuphaneYorumReq.getKullanici_id()).orElseThrow(EntityNotFoundException::new);
+        Kullanici kullanici = kullaniciRepository.findByAccountId(kutuphaneYorumReq.getKullanici_id()).orElseThrow(EntityNotFoundException::new);
         return KutuphaneYorum.builder()
                 .yorum(kutuphaneYorumReq.getYorum())
                 .kullanici(kullanici)

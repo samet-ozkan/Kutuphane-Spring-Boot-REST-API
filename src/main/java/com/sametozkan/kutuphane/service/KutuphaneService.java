@@ -36,14 +36,14 @@ public class KutuphaneService {
             String jsonInput = objectMapper.writeValueAsString(kutuphaneReq);
 
             ChatResponse response = gptClient.chat(new ChatRequest(
-                    "Lütfen aşağıdaki JSON'daki yazım yanlışlarını düzeltin ve sonucu tekrar JSON formatında döndürün. Düzeltmelerde şu kurallara dikkat edin:" +
-                            "\n1. Şehir kısmında kısaltma kullanılmışsa, uzun halini yazın." +
-                            "\n2. Büyük/küçük harf kurallarına dikkat edin." +
-                            "\n3. Noktalama işaretlerine dikkat edin." +
-                            "\n4. Boş bir alan varsa doldurun." +
-                            "\n5. ChatGptYorumu alanına ChatGPT'nin bu kütüphane ile ilgili düşüncelerini yazın." +
+                    "Lütfen aşağıdaki JSON'daki yazım yanlışlarını düzelt ve sonucu tekrar JSON formatında döndür. Düzeltmelerde şu kurallara dikkat et:" +
+                            "\n1. Şehir kısmında kısaltma kullanılmışsa, uzun halini yaz." +
+                            "\n2. Büyük/küçük harf kurallarına dikkat et." +
+                            "\n3. Noktalama işaretlerine dikkat et." +
+                            "\n4. Boş bir alan varsa doldur." +
+                            "\n5. ChatGptYorumu alanına bu kütüphane hakkındaki görüşlerini yaz. Bu kısım boş kalmamalıdır." +
                             "\n\nDüzeltilecek JSON: " + jsonInput +
-                            "\n\nLütfen düzeltilmiş JSON'u sadece JSON formatında döndürün."
+                            "\n\nLütfen düzeltilmiş JSON'u sadece JSON formatında döndür."
             ));
 
             String correctedJson = response.choices().get(0).message().content();

@@ -7,7 +7,6 @@ import com.sametozkan.kutuphane.config.chatgpt.ChatRequest;
 import com.sametozkan.kutuphane.config.chatgpt.ChatResponse;
 import com.sametozkan.kutuphane.config.chatgpt.GptClient;
 import com.sametozkan.kutuphane.entity.dto.request.KitapKullaniciReq;
-import com.sametozkan.kutuphane.entity.dto.request.KutuphaneReq;
 import com.sametozkan.kutuphane.entity.dto.response.KitapKullaniciRes;
 import com.sametozkan.kutuphane.entity.dto.response.KitapOnerisiRes;
 import com.sametozkan.kutuphane.entity.mapper.KitapKullaniciMapper;
@@ -66,19 +65,19 @@ public class KitapKullaniciService {
     }
 
     public List<KitapKullaniciRes> findByKullaniciIdAndOnaylandiIsNull(Long accountId) {
-        Kullanici kullanici = kullaniciRepository.findByAccountID(accountId).orElseThrow(EntityNotFoundException::new);
+        Kullanici kullanici = kullaniciRepository.findByAccountId(accountId).orElseThrow(EntityNotFoundException::new);
         List<KitapKullanici> kitapKullaniciList = kitapKullaniciRepository.findByKullaniciIdAndOnaylandiIsNull(kullanici.getId()).orElseThrow(EntityNotFoundException::new);
         return kitapKullaniciMapper.convertToResponse(kitapKullaniciList);
     }
 
     public List<KitapKullaniciRes> findByKullaniciIdAndOnaylandiIsFalse(Long accountId) {
-        Kullanici kullanici = kullaniciRepository.findByAccountID(accountId).orElseThrow(EntityNotFoundException::new);
+        Kullanici kullanici = kullaniciRepository.findByAccountId(accountId).orElseThrow(EntityNotFoundException::new);
         List<KitapKullanici> kitapKullaniciList = kitapKullaniciRepository.findByKullaniciIdAndOnaylandiIsFalse(kullanici.getId()).orElseThrow(EntityNotFoundException::new);
         return kitapKullaniciMapper.convertToResponse(kitapKullaniciList);
     }
 
     public List<KitapKullaniciRes> findByKullaniciIdAndOnaylandiIsTrue(Long accountId) {
-        Kullanici kullanici = kullaniciRepository.findByAccountID(accountId).orElseThrow(EntityNotFoundException::new);
+        Kullanici kullanici = kullaniciRepository.findByAccountId(accountId).orElseThrow(EntityNotFoundException::new);
         List<KitapKullanici> kitapKullaniciList = kitapKullaniciRepository.findByKullaniciIdAndOnaylandiIsTrue(kullanici.getId()).orElseThrow(EntityNotFoundException::new);
         return kitapKullaniciMapper.convertToResponse(kitapKullaniciList);
     }
@@ -103,7 +102,7 @@ public class KitapKullaniciService {
     }
 
     public List<KitapOnerisiRes> fetchKitapOnerileri(Long accountId) throws JsonProcessingException {
-        Kullanici kullanici = kullaniciRepository.findByAccountID(accountId).orElseThrow(EntityNotFoundException::new);
+        Kullanici kullanici = kullaniciRepository.findByAccountId(accountId).orElseThrow(EntityNotFoundException::new);
         try {
             List<KitapKullanici> kitapKullaniciList = kitapKullaniciRepository.findByKullaniciIdAndOnaylandiIsTrue(kullanici.getId()).orElseThrow(EntityNotFoundException::new);
 
@@ -116,7 +115,7 @@ public class KitapKullaniciService {
                 kitapBasliklari = kitapBasliklari.subList(0, Math.min(kitapBasliklari.size(), 5));
 
                 ChatResponse response = gptClient.chat(new ChatRequest(
-                        "Bu kitap başlıklarını göz önüne alarak JSON yapısı " + jsonInput + " şeklinde olan bir JSON listesi oluştur. Bu listede 5 adet öneri bulunmalıdır: " + kitapBasliklari + " (onerilmeSebebi alanında 'ilgili kitabı neden önerdiğinden bahset')"
+                        "Bu kitap başlıklarını göz önüne alarak JSON yapısı " + jsonInput + " şeklinde olan bir JSON listesi oluştur. Bu listede 5 adet öneri bulunmalıdır: " + kitapBasliklari + " (onerilmeSebebi alanında ilgili kitabı neden önerdiğinden bahsetmeni istiyorum. Bu kısım boş olmamalıdır.')"
                 ));
                 String kitapOnerileriJSON = response.choices().get(0).message().content();
                 List<KitapOnerisiRes> kitapOnerileri = objectMapper.readValue(kitapOnerileriJSON, new TypeReference<List<KitapOnerisiRes>>() {

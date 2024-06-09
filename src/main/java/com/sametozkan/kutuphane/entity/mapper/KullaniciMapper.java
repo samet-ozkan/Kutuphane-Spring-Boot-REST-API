@@ -31,6 +31,7 @@ public class KullaniciMapper {
         return KullaniciRes.builder()
                 .id(kullanici.getId())
                 .adi(kullanici.getAdi())
+                .email(kullanici.getAccount().getEmail())
                 .soyadi(kullanici.getSoyadi())
                 .account(accountMapper.convertToResponse(kullanici.getAccount()))
                 .kitaplar(kitapMapper.convertToResponse(kullanici.getKitaplar().stream().map(KitapKullanici::getKitap).toList()))

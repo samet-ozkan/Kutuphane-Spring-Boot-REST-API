@@ -27,7 +27,7 @@ public class KitapKullaniciMapper {
     private final KutuphaneMapper kutuphaneMapper;
 
     public KitapKullanici convertToEntity(KitapKullaniciReq kitapKullaniciReq) {
-        Kullanici kullanici = kullaniciRepository.findByAccountID(kitapKullaniciReq.getKullaniciId()).orElseThrow(EntityNotFoundException::new);
+        Kullanici kullanici = kullaniciRepository.findByAccountId(kitapKullaniciReq.getKullaniciId()).orElseThrow(EntityNotFoundException::new);
         return KitapKullanici.builder()
                 .kitap(kitapRepository.getReferenceById(kitapKullaniciReq.getKitapId()))
                 .kutuphane(kutuphaneRepository.getReferenceById(kitapKullaniciReq.getKutuphaneId()))

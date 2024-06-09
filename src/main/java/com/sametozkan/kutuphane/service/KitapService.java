@@ -52,21 +52,23 @@ public class KitapService {
             String jsonInput = objectMapper.writeValueAsString(kitapReq);
 
             ChatResponse response = gptClient.chat(new ChatRequest(
-                    "Lütfen aşağıdaki JSON'daki yazım yanlışlarını düzeltin ve sonucu tekrar JSON formatında döndürün. Düzeltmelerde şu kurallara dikkat edin:" +
-                            "\n1. Yayın tarihi Türkiye tarih formatında olsun (gün/ay/yıl). Tam tarih belirtilmemişse sadece yılı alın." +
-                            "\n2. Dil kısmında kısaltma kullanılmışsa, uzun halini yazın." +
-                            "\n3. Büyük/küçük harf kurallarına dikkat edin." +
-                            "\n4. Noktalama işaretlerine dikkat edin." +
-                            "\n5. Başlık haricindeki diğer alanlar yabancı dilde yazılmışsa, Türkçe'ye çevirin." +
-                            "\n6. Boş bir alan varsa doldurun." +
-                            "\n7. ChatGptYorumu alanına ChatGPT'nin bu kitap ile ilgili düşüncelerini yazın." +
+                    "Lütfen aşağıdaki JSON'daki yazım yanlışlarını düzelt ve sonucu tekrar JSON formatında döndür. Düzeltmelerde şu kurallara dikkat et:" +
+                            "\n1. Yayın tarihi Türkiye tarih formatında olsun (gün/ay/yıl). Tam tarih belirtilmemişse sadece yılı al." +
+                            "\n2. Dil kısmında kısaltma kullanılmışsa, uzun halini yaz." +
+                            "\n3. Büyük/küçük harf kurallarına dikkat et." +
+                            "\n4. Noktalama işaretlerine dikkat et." +
+                            "\n5. Başlık haricindeki diğer alanlar yabancı dilde yazılmışsa, Türkçe'ye çevir. Başlık yabancı dilde olabilir." +
+                            "\n6. Boş bir alan varsa doldur." +
+                            "\n7. chatGptYorumu alanına bu kitap hakkındaki düşüncelerini yaz. Bu kısım boş kalmamalıdır." +
                             "\n\nDüzeltilecek JSON:" + jsonInput +
-                            "\n\nLütfen düzeltilmiş JSON'u sadece JSON formatında döndürün."
+                            "\n\nLütfen düzeltilmiş JSON'u sadece JSON formatında döndür."
             ));
 
             String correctedJson = response.choices().get(0).message().content();
 
             kitapReq = objectMapper.readValue(correctedJson, KitapReq.class);
+
+            System.out.println("JSON: " + correctedJson);
 
         } catch (Exception e) {
             System.out.println("Hata: " + e.getMessage());
