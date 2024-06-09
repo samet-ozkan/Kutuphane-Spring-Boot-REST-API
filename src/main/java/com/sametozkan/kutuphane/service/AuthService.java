@@ -1,5 +1,6 @@
 package com.sametozkan.kutuphane.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sametozkan.kutuphane.config.jwt.JwtUtils;
 import com.sametozkan.kutuphane.config.jwt.UserDetailsImpl;
 import com.sametozkan.kutuphane.entity.dto.request.*;
@@ -25,7 +26,7 @@ public class AuthService {
     private final KullaniciService kullaniciService;
 
     @Transactional
-    public void registerKutuphane(KutuphaneRegisterReq kutuphaneRegisterReq) {
+    public void registerKutuphane(KutuphaneRegisterReq kutuphaneRegisterReq) throws JsonProcessingException {
         Account account = accountService.save(kutuphaneRegisterReq.getAccount());
         kutuphaneService.save(kutuphaneRegisterReq.getKutuphane(), account);
     }

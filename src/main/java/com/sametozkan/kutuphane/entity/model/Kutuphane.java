@@ -33,6 +33,9 @@ public class Kutuphane extends BaseEntity {
     @Column(name = "teslim_suresi", nullable = false)
     private Integer teslimSuresi;
 
+    @Column(name = "chatgpt_yorumu", nullable = false)
+    private String chatGptYorumu;
+
     @OneToOne
     @JoinColumn(name = "account_id")
     private Account account;

@@ -1,5 +1,6 @@
 package com.sametozkan.kutuphane.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sametozkan.kutuphane.entity.dto.request.KullaniciRegisterReq;
 import com.sametozkan.kutuphane.entity.dto.request.KutuphaneRegisterReq;
 import com.sametozkan.kutuphane.entity.dto.request.LoginReq;
@@ -27,7 +28,7 @@ public class AuthController {
     }
 
     @PostMapping("/register/kutuphane")
-    public ResponseEntity<Void> registerKutuphane(@RequestBody KutuphaneRegisterReq kutuphaneRegisterReq) {
+    public ResponseEntity<Void> registerKutuphane(@RequestBody KutuphaneRegisterReq kutuphaneRegisterReq) throws JsonProcessingException {
         authService.registerKutuphane(kutuphaneRegisterReq);
         return new ResponseEntity<>(HttpStatus.OK);
     }

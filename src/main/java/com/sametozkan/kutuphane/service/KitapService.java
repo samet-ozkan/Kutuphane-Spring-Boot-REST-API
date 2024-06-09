@@ -1,6 +1,11 @@
 package com.sametozkan.kutuphane.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.sametozkan.kutuphane.config.chatgpt.ChatRequest;
+import com.sametozkan.kutuphane.config.chatgpt.ChatResponse;
+import com.sametozkan.kutuphane.config.chatgpt.GptClient;
 import com.sametozkan.kutuphane.config.googlebooks.BookResponse;
 import com.sametozkan.kutuphane.config.googlebooks.BooksClient;
 import com.sametozkan.kutuphane.config.googlebooks.VolumeInfo;
@@ -16,6 +21,8 @@ import com.sametozkan.kutuphane.entity.repository.KitapRepository;
 import com.sametozkan.kutuphane.util.Utils;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,9 +43,36 @@ public class KitapService {
     private final TurService turService;
     private final KitapTurService kitapTurService;
     private final BooksClient booksClient;
+    private final GptClient gptClient;
 
     @Transactional
-    public Long save(KitapReq kitapReq) {
+    public Long save(KitapReq kitapReq) throws JsonProcessingException {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonInput = objectMapper.writeValueAsString(kitapReq);
+
+            ChatResponse response = gptClient.chat(new ChatRequest(
+                    "Lütfen aşağıdaki JSON'daki yazım yanlışlarını düzeltin ve sonucu tekrar JSON formatında döndürün. Düzeltmelerde şu kurallara dikkat edin:" +
+                            "\n1. Yayın tarihi Türkiye tarih formatında olsun (gün/ay/yıl). Tam tarih belirtilmemişse sadece yılı alın." +
+                            "\n2. Dil kısmında kısaltma kullanılmışsa, uzun halini yazın." +
+                            "\n3. Büyük/küçük harf kurallarına dikkat edin." +
+                            "\n4. Noktalama işaretlerine dikkat edin." +
+                            "\n5. Başlık haricindeki diğer alanlar yabancı dilde yazılmışsa, Türkçe'ye çevirin." +
+                            "\n6. Boş bir alan varsa doldurun." +
+                            "\n7. ChatGptYorumu alanına ChatGPT'nin bu kitap ile ilgili düşüncelerini yazın." +
+                            "\n\nDüzeltilecek JSON:" + jsonInput +
+                            "\n\nLütfen düzeltilmiş JSON'u sadece JSON formatında döndürün."
+            ));
+
+            String correctedJson = response.choices().get(0).message().content();
+
+            kitapReq = objectMapper.readValue(correctedJson, KitapReq.class);
+
+        } catch (Exception e) {
+            System.out.println("Hata: " + e.getMessage());
+            throw e;
+        }
+
         Long kitapId = kitapRepository.save(kitapMapper.convertToEntity(kitapReq)).getId();
         List<Yazar> yazarlar = new ArrayList<>(yazarService.saveAll(kitapReq.getYazarlar()));
         List<KitapYazarReq> kitapYazarReqList = new ArrayList<>();

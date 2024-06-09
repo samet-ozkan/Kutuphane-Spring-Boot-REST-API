@@ -21,6 +21,7 @@ public class KitapMapper {
                 .isbn(kitapReq.getIsbn())
                 .aciklama(kitapReq.getAciklama())
                 .yayinTarihi(kitapReq.getYayinTarihi())
+                .chatGptYorumu(kitapReq.getChatGptYorumu())
                 .dil(kitapReq.getDil())
                 .sayfaSayisi(kitapReq.getSayfaSayisi())
                 .build();
@@ -37,6 +38,7 @@ public class KitapMapper {
                 .dil(kitap.getDil())
                 .sayfaSayisi(kitap.getSayfaSayisi())
                 .aciklama(kitap.getAciklama())
+                .chatGptYorumu(kitap.getChatGptYorumu())
                 .yazarlar(kitap.getYazarlar().stream().map(kitapYazar -> yazarMapper.convertToResponse(kitapYazar.getYazar())).toList())
                 .turler(kitap.getTurler().stream().map(kitapTur -> turMapper.convertToResponse(kitapTur.getTur())).toList())
                 .build();

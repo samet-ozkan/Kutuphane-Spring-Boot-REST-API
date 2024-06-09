@@ -1,7 +1,9 @@
 package com.sametozkan.kutuphane.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sametozkan.kutuphane.entity.dto.request.KitapKullaniciReq;
 import com.sametozkan.kutuphane.entity.dto.response.KitapKullaniciRes;
+import com.sametozkan.kutuphane.entity.dto.response.KitapOnerisiRes;
 import com.sametozkan.kutuphane.service.KitapKullaniciService;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
@@ -62,6 +64,12 @@ public class KitapKullaniciController {
     public ResponseEntity<List<KitapKullaniciRes>> findByKutuphaneId(@PathVariable Long accountId) {
         List<KitapKullaniciRes> kitapKullaniciResList = kitapKullaniciService.findByKutuphaneId(accountId);
         return new ResponseEntity<>(kitapKullaniciResList, HttpStatus.OK);
+    }
+
+    @GetMapping("/kitap-onerileri/{accountId}")
+    public ResponseEntity<List<KitapOnerisiRes>> fetchKitapOnerileri(@PathVariable Long accountId) throws JsonProcessingException {
+        List<KitapOnerisiRes> kitapOnerisiResList = kitapKullaniciService.fetchKitapOnerileri(accountId);
+        return new ResponseEntity<>(kitapOnerisiResList, HttpStatus.OK);
     }
 
     @PostMapping("/onayla/{kitapKullaniciId}")

@@ -1,5 +1,7 @@
 package com.sametozkan.kutuphane.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sametozkan.kutuphane.config.chatgpt.GptClient;
 import com.sametozkan.kutuphane.config.googlebooks.BooksClient;
 import com.sametozkan.kutuphane.entity.dto.request.KitapReq;
@@ -22,9 +24,9 @@ public class KitapController {
     private final GptClient gptClient;
 
     @PostMapping
-    public ResponseEntity<Long> save(@RequestBody KitapReq kitapReq) {
+    public ResponseEntity<Long> save(@RequestBody KitapReq kitapReq) throws JsonProcessingException {
         Long kitapId = kitapService.save(kitapReq);
-        return new ResponseEntity<Long>(kitapId, HttpStatus.OK);
+        return new ResponseEntity<>(kitapId, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

@@ -33,6 +33,5 @@ public class KullaniciController {
     public ResponseEntity<KullaniciRes> findById(@PathVariable Long id) {
         KullaniciRes kullaniciRes = kullaniciService.findById(id);
         return new ResponseEntity<>(kullaniciRes, HttpStatus.OK);
-
     }
 }
