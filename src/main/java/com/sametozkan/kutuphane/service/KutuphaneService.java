@@ -41,7 +41,7 @@ public class KutuphaneService {
                             "\n2. Büyük/küçük harf kurallarına dikkat et." +
                             "\n3. Noktalama işaretlerine dikkat et." +
                             "\n4. Boş bir alan varsa doldur." +
-                            "\n5. ChatGptYorumu alanına bu kütüphane hakkındaki görüşlerini yaz. Bu kısım boş kalmamalıdır." +
+                            "\n5. ChatGptYorumu alanına bu kütüphane hakkındaki görüşlerini yaz. Bu kısım boş kalmamalıdır. Kütüphane hakkında bilgin yoksa şehirden bahset." +
                             "\n\nDüzeltilecek JSON: " + jsonInput +
                             "\n\nLütfen düzeltilmiş JSON'u sadece JSON formatında döndür."
             ));
@@ -78,6 +78,7 @@ public class KutuphaneService {
     }
 
     public KutuphaneRes findById(Long id) {
+        System.out.println("ID: " + id);
         Kutuphane kutuphane = kutuphaneRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         return kutuphaneMapper.convertToResponse(kutuphane);
     }
