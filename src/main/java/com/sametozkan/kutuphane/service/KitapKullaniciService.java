@@ -101,6 +101,19 @@ public class KitapKullaniciService {
         kitapKullaniciRepository.save(kitapKullanici);
     }
 
+    public void teslimEdildi(Long kitapKullaniciId){
+        KitapKullanici kitapKullanici = kitapKullaniciRepository.findById(kitapKullaniciId).orElseThrow(EntityNotFoundException::new);
+        kitapKullanici.setIadeDurumu(true);
+        kitapKullanici.setTeslimTarihi(LocalDateTime.now());
+        kitapKullaniciRepository.save(kitapKullanici);
+    }
+
+    public List<KitapKullaniciRes> teslimEdilmeyenler(Long kutuphaneId){
+        Kutuphane kutuphane = kutuphaneRepository.findByAccountId(kutuphaneId).orElseThrow(EntityNotFoundException::new);
+        List<KitapKullanici> kitapKullaniciList = kitapKullaniciRepository.teslimEdilmeyenler(kutuphane.getId()).orElseThrow(EntityNotFoundException::new);
+        return kitapKullaniciMapper.convertToResponse(kitapKullaniciList);
+    }
+
     public List<KitapOnerisiRes> fetchKitapOnerileri(Long accountId) throws JsonProcessingException {
         Kullanici kullanici = kullaniciRepository.findByAccountId(accountId).orElseThrow(EntityNotFoundException::new);
         try {
@@ -123,7 +136,7 @@ public class KitapKullaniciService {
                 return kitapOnerileri;
             } else {
                 ChatResponse response = gptClient.chat(new ChatRequest(
-                        "Bu şekilde JSON yapısında olan " + jsonInput + " JSON listesi halinde 5 adet kitap öner: "
+                        "Bu şekilde JSON yapısında olan " + jsonInput + " JSON listesi halinde 5 adet kitap öner (Yanıtın parse edilebilecek JSON şeklinde olsun): "
                 ));
                 String kitapOnerileriJSON = response.choices().get(0).message().content();
                 List<KitapOnerisiRes> kitapOnerileri = objectMapper.readValue(kitapOnerileriJSON, new TypeReference<List<KitapOnerisiRes>>() {

@@ -6,6 +6,7 @@ import com.sametozkan.kutuphane.config.jwt.UserDetailsImpl;
 import com.sametozkan.kutuphane.entity.dto.request.*;
 import com.sametozkan.kutuphane.entity.dto.response.JwtRes;
 import com.sametozkan.kutuphane.entity.model.Account;
+import com.sametozkan.kutuphane.entity.model.RefreshToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -24,6 +25,7 @@ public class AuthService {
     private final AccountService accountService;
     private final KutuphaneService kutuphaneService;
     private final KullaniciService kullaniciService;
+    private final RefreshTokenService refreshTokenService;
 
     @Transactional
     public void registerKutuphane(KutuphaneRegisterReq kutuphaneRegisterReq) throws JsonProcessingException {
@@ -44,16 +46,18 @@ public class AuthService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-            String jwt = jwtUtils.generateJwtToken(authentication);
+            String jwt = jwtUtils.generateJwtToken(userDetails.getUsername());
+            RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
             return JwtRes.builder()
                     .jwt(jwt)
+                    .refreshToken(refreshToken.getToken())
+                    .refreshExpiryDate(refreshToken.getExpiryDate().toEpochMilli())
                     .accountId(userDetails.getId())
                     .accountType(userDetails.getType())
                     .email(userDetails.getUsername())
                     .build();
         } catch (AuthenticationException e) {
-            // Kimlik doğrulama hatası, uygun şekilde işleyin.
-            e.printStackTrace(); // Hata mesajını yazdırın veya uygun şekilde işleyin.
+            e.printStackTrace();
             throw e;
         }
     }

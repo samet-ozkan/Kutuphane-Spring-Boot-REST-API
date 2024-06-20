@@ -84,6 +84,19 @@ public class KitapKullaniciController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PostMapping("/teslim-edildi/{kitapKullaniciId}")
+    public ResponseEntity<Void> teslimEdildi(@PathVariable Long kitapKullaniciId) {
+        kitapKullaniciService.teslimEdildi(kitapKullaniciId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/teslim-edilmeyenler/{kutuphaneId}")
+    public ResponseEntity<List<KitapKullaniciRes>> teslimEdilmeyenler(@PathVariable Long kutuphaneId) {
+        List<KitapKullaniciRes> kitapKullaniciResList = kitapKullaniciService.teslimEdilmeyenler(kutuphaneId);
+        return new ResponseEntity<>(kitapKullaniciResList, HttpStatus.OK);
+    }
+
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         kitapKullaniciService.deleteById(id);
