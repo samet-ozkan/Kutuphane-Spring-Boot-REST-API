@@ -8,6 +8,7 @@ import com.sametozkan.kutuphane.service.KutuphaneYorumService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ public class KutuphaneYorumController {
 
     private final KutuphaneYorumService kutuphaneYorumService;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_KULLANICI')")
     @PostMapping
     public ResponseEntity<Long> save(@RequestBody KutuphaneYorumReq kutuphaneYorumReq) {
         Long id = kutuphaneYorumService.save(kutuphaneYorumReq).getId();

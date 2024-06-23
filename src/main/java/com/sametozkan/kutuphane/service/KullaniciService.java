@@ -6,6 +6,7 @@ import com.sametozkan.kutuphane.entity.mapper.KullaniciMapper;
 import com.sametozkan.kutuphane.entity.model.Account;
 import com.sametozkan.kutuphane.entity.model.Kullanici;
 import com.sametozkan.kutuphane.entity.repository.KullaniciRepository;
+import com.sametozkan.kutuphane.util.AccessPermission;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class KullaniciService {
     @Transactional
     public KullaniciRes update(Long id, KullaniciReq kullaniciReq) {
         Kullanici kullanici = kullaniciRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        AccessPermission.kullanici(kullaniciRepository, id);
         kullanici.setAdi(kullaniciReq.getAdi());
         kullanici.setSoyadi(kullaniciReq.getSoyadi());
 

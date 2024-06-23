@@ -14,6 +14,7 @@ import com.sametozkan.kutuphane.entity.mapper.KutuphaneYorumMapper;
 import com.sametozkan.kutuphane.entity.model.Account;
 import com.sametozkan.kutuphane.entity.model.Kutuphane;
 import com.sametozkan.kutuphane.entity.repository.KutuphaneRepository;
+import com.sametozkan.kutuphane.util.AccessPermission;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -65,6 +66,7 @@ public class KutuphaneService {
     @Transactional
     public KutuphaneRes update(Long id, KutuphaneReq kutuphaneReq) {
         Kutuphane kutuphane = kutuphaneRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        AccessPermission.kutuphane(kutuphaneRepository, id);
         kutuphane.setAdi(kutuphaneReq.getAdi());
         kutuphane.setAdresi(kutuphaneReq.getAdresi());
         kutuphane.setTeslimSuresi(kutuphaneReq.getTeslimSuresi());

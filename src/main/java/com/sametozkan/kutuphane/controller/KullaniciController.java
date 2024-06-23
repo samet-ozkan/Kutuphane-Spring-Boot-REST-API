@@ -7,6 +7,7 @@ import com.sametozkan.kutuphane.service.KullaniciService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,12 +19,14 @@ public class KullaniciController {
 
     private final KullaniciService kullaniciService;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_KULLANICI')")
     @PutMapping("/{id}")
     public ResponseEntity<KullaniciRes> update(@PathVariable Long id, @RequestBody KullaniciReq kullaniciReq) {
         KullaniciRes kullaniciRes = kullaniciService.update(id, kullaniciReq);
         return new ResponseEntity<>(kullaniciRes, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity<List<KullaniciRes>> findAll() {
         List<KullaniciRes> kullaniciResList = kullaniciService.findAll();
@@ -36,6 +39,7 @@ public class KullaniciController {
         return new ResponseEntity<>(kullaniciRes, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or (hasRole('ROLE_KULLANICI') and authentication.principal.id == #accountId)")
     @GetMapping("/account/{accountId}")
     public ResponseEntity<KullaniciRes> findByAccountId(@PathVariable Long accountId){
         KullaniciRes kullaniciRes = kullaniciService.findByAccountId(accountId);

@@ -7,6 +7,7 @@ import com.sametozkan.kutuphane.service.KitapYazarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,12 +19,14 @@ public class KitapYazarController {
 
     private final KitapYazarService kitapYazarService;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_KUTUPHANE')")
     @PostMapping
     public ResponseEntity<Void> save(@RequestBody KitapYazarReq kitapYazarReq) {
         kitapYazarService.save(kitapYazarReq);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_KUTUPHANE')")
     @PutMapping("/{id}")
     public ResponseEntity<KitapYazarRes> update(@PathVariable Long id, @RequestBody KitapYazarReq kitapYazarReq) {
         KitapYazarRes kitapYazarRes = kitapYazarService.update(id, kitapYazarReq);

@@ -1,5 +1,6 @@
 package com.sametozkan.kutuphane.service;
 
+import com.sametozkan.kutuphane.config.jwt.UserDetailsImpl;
 import com.sametozkan.kutuphane.entity.dto.request.AccountReq;
 import com.sametozkan.kutuphane.entity.dto.response.AccountRes;
 import com.sametozkan.kutuphane.entity.mapper.AccountMapper;
@@ -7,6 +8,8 @@ import com.sametozkan.kutuphane.entity.model.Account;
 import com.sametozkan.kutuphane.entity.repository.AccountRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +26,7 @@ public class AccountService {
     }
 
     public AccountRes findById(Long id) {
+        Long userId = ((UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         Account account = accountRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         return accountMapper.convertToResponse(account);
     }

@@ -42,7 +42,6 @@ public class AuthController {
 
     @PostMapping("/refresh-token")
     public ResponseEntity<TokenRefreshRes> refreshToken(@RequestBody TokenRefreshReq tokenRefreshReq) throws Exception {
-        System.out.println("Auth controller refreshToken!");
         TokenRefreshRes tokenRefreshRes = refreshTokenService.refreshToken(tokenRefreshReq);
         return new ResponseEntity<>(tokenRefreshRes, HttpStatus.OK);
     }

@@ -6,6 +6,7 @@ import com.sametozkan.kutuphane.service.TurService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,12 +18,14 @@ public class TurController {
 
     private final TurService turService;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_KUTUPHANE')")
     @PostMapping
     public ResponseEntity<Void> save(@RequestBody TurReq turReq) {
         turService.save(turReq);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_KUTUPHANE')")
     @PutMapping("/{id}")
     public ResponseEntity<TurRes> update(@PathVariable Long id, @RequestBody TurReq turReq) {
         TurRes turRes = turService.update(id, turReq);

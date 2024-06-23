@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +23,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = accountService.findByEmail(username);
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(account.getType()));
+        String type = account.getType();
+        if(Objects.equals(type, "kullanici")){
+            authorities.add(new SimpleGrantedAuthority("ROLE_KULLANICI"));
+        }
+        else{
+            authorities.add(new SimpleGrantedAuthority("ROLE_KUTUPHANE"));
+        }
 
         return UserDetailsImpl.build(account, authorities);
     }

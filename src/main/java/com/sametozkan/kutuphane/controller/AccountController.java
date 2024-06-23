@@ -7,6 +7,7 @@ import com.sametozkan.kutuphane.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +23,7 @@ public class AccountController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or authentication.principal.id == #id")
     @GetMapping("/{id}")
     public ResponseEntity<AccountRes> findById(@PathVariable Long id) {
         AccountRes accountRes = accountService.findById(id);

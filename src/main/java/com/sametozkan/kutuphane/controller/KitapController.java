@@ -10,6 +10,7 @@ import com.sametozkan.kutuphane.service.KitapService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,12 +24,14 @@ public class KitapController {
     private final BooksClient booksClient;
     private final GptClient gptClient;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_KUTUPHANE')")
     @PostMapping
     public ResponseEntity<Long> save(@RequestBody KitapReq kitapReq) throws JsonProcessingException {
         Long kitapId = kitapService.save(kitapReq);
         return new ResponseEntity<>(kitapId, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_KUTUPHANE')")
     @PutMapping("/{id}")
     public ResponseEntity<KitapRes> update(@PathVariable Long id, @RequestBody KitapReq kitapReq) {
         KitapRes kitapRes = kitapService.update(id, kitapReq);
@@ -56,6 +59,7 @@ public class KitapController {
             return new ResponseEntity<>(kitapRes, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_KUTUPHANE')")
     @GetMapping("/fetch/{isbn}")
     public ResponseEntity<KitapReq> fetchByIsbn(@PathVariable Long isbn) {
         KitapReq kitapReq = kitapService.fetchByIsbn(isbn);

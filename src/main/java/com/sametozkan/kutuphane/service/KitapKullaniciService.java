@@ -17,6 +17,7 @@ import com.sametozkan.kutuphane.entity.repository.KitapKullaniciRepository;
 import com.sametozkan.kutuphane.entity.repository.KitapRepository;
 import com.sametozkan.kutuphane.entity.repository.KullaniciRepository;
 import com.sametozkan.kutuphane.entity.repository.KutuphaneRepository;
+import com.sametozkan.kutuphane.util.AccessPermission;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -47,7 +48,7 @@ public class KitapKullaniciService {
     public KitapKullaniciRes update(Long id, KitapKullaniciReq kitapKullaniciReq) {
         KitapKullanici kitapKullanici = kitapKullaniciRepository.findById(id).orElseThrow(EntityNotFoundException::new);
         kitapKullanici.setKitap(kitapRepository.getReferenceById(kitapKullaniciReq.getKitapId()));
-        kitapKullanici.setKullanici(kullaniciRepository.getReferenceById(kitapKullaniciReq.getKullaniciId()));
+        kitapKullanici.setKullanici(kullaniciRepository.getReferenceById(kitapKullaniciReq.getKullaniciAccountId()));
         kitapKullanici.setKutuphane(kutuphaneRepository.getReferenceById(kitapKullaniciReq.getKutuphaneId()));
         kitapKullanici.setIadeDurumu(kitapKullaniciReq.getIadeDurumu());
 
@@ -90,6 +91,7 @@ public class KitapKullaniciService {
 
     public void kitapIstegiOnayla(Long kitapKullaniciId) {
         KitapKullanici kitapKullanici = kitapKullaniciRepository.findById(kitapKullaniciId).orElseThrow(EntityNotFoundException::new);
+        AccessPermission.kutuphane(kutuphaneRepository, kitapKullanici.getKutuphane().getId());
         kitapKullanici.setOnaylandi(true);
         kitapKullanici.setAlimTarihi(LocalDateTime.now());
         kitapKullaniciRepository.save(kitapKullanici);
@@ -97,19 +99,21 @@ public class KitapKullaniciService {
 
     public void kitapIstegiReddet(Long kitapKullaniciId) {
         KitapKullanici kitapKullanici = kitapKullaniciRepository.findById(kitapKullaniciId).orElseThrow(EntityNotFoundException::new);
+        AccessPermission.kutuphane(kutuphaneRepository, kitapKullanici.getKutuphane().getId());
         kitapKullanici.setOnaylandi(false);
         kitapKullaniciRepository.save(kitapKullanici);
     }
 
     public void teslimEdildi(Long kitapKullaniciId){
         KitapKullanici kitapKullanici = kitapKullaniciRepository.findById(kitapKullaniciId).orElseThrow(EntityNotFoundException::new);
+        AccessPermission.kutuphane(kutuphaneRepository, kitapKullanici.getKutuphane().getId());
         kitapKullanici.setIadeDurumu(true);
         kitapKullanici.setTeslimTarihi(LocalDateTime.now());
         kitapKullaniciRepository.save(kitapKullanici);
     }
 
-    public List<KitapKullaniciRes> teslimEdilmeyenler(Long kutuphaneId){
-        Kutuphane kutuphane = kutuphaneRepository.findByAccountId(kutuphaneId).orElseThrow(EntityNotFoundException::new);
+    public List<KitapKullaniciRes> teslimEdilmeyenler(Long kutuphaneAccountId){
+        Kutuphane kutuphane = kutuphaneRepository.findByAccountId(kutuphaneAccountId).orElseThrow(EntityNotFoundException::new);
         List<KitapKullanici> kitapKullaniciList = kitapKullaniciRepository.teslimEdilmeyenler(kutuphane.getId()).orElseThrow(EntityNotFoundException::new);
         return kitapKullaniciMapper.convertToResponse(kitapKullaniciList);
     }
@@ -150,6 +154,9 @@ public class KitapKullaniciService {
     }
 
     public void deleteById(Long id) {
+        KitapKullanici kitapKullanici = kitapKullaniciRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        AccessPermission.kullanici(kullaniciRepository, kitapKullanici.getKutuphane().getId());
         kitapKullaniciRepository.deleteById(id);
     }
+
 }

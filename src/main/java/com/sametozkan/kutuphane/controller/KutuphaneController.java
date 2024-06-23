@@ -6,6 +6,7 @@ import com.sametozkan.kutuphane.service.KutuphaneService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.w3c.dom.stylesheets.LinkStyle;
 
@@ -18,6 +19,7 @@ public class KutuphaneController {
 
     private final KutuphaneService kutuphaneService;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_KUTUPHANE')")
     @PutMapping("/{id}")
     public ResponseEntity<KutuphaneRes> update(@PathVariable Long id, @RequestBody KutuphaneReq kutuphaneReq) {
         KutuphaneRes kutuphaneRes = kutuphaneService.update(id, kutuphaneReq);
@@ -36,6 +38,7 @@ public class KutuphaneController {
         return new ResponseEntity<>(kutuphaneRes, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or (hasRole('ROLE_KUTUPHANE') and authentication.principal.id == #accountId)")
     @GetMapping("/account/{accountId}")
     public ResponseEntity<KutuphaneRes> findByAccountId(@PathVariable Long accountId){
         KutuphaneRes kutuphaneRes = kutuphaneService.findByAccountId(accountId);

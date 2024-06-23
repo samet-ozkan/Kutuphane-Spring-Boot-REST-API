@@ -7,6 +7,7 @@ import com.sametozkan.kutuphane.service.YazarService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,12 +19,14 @@ public class YazarController {
 
     private final YazarService yazarService;
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_KUTUPHANE')")
     @PostMapping
     public ResponseEntity<Void> save(@RequestBody YazarReq yazarReq) {
         yazarService.save(yazarReq);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_KUTUPHANE')")
     @PutMapping("/{id}")
     public ResponseEntity<YazarRes> update(@PathVariable Long id, @RequestBody YazarReq yazarReq) {
         YazarRes yazarRes = yazarService.update(id, yazarReq);

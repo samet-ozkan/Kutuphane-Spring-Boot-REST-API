@@ -11,5 +11,4 @@ public class KutuphaneUygulamasiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(KutuphaneUygulamasiApplication.class, args);
 	}
-
 }
