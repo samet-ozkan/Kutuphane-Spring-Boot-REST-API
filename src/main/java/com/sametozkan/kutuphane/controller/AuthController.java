@@ -7,6 +7,7 @@ import com.sametozkan.kutuphane.entity.dto.request.LoginReq;
 import com.sametozkan.kutuphane.entity.dto.request.TokenRefreshReq;
 import com.sametozkan.kutuphane.entity.dto.response.JwtRes;
 import com.sametozkan.kutuphane.entity.dto.response.TokenRefreshRes;
+import com.sametozkan.kutuphane.exception.WrongAccountTypeException;
 import com.sametozkan.kutuphane.service.AuthService;
 import com.sametozkan.kutuphane.service.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ public class AuthController {
     private final RefreshTokenService refreshTokenService;
 
     @PostMapping("/login")
-    public ResponseEntity<JwtRes> login(@RequestBody LoginReq loginReq) {
+    public ResponseEntity<JwtRes> login(@RequestBody LoginReq loginReq) throws WrongAccountTypeException {
         JwtRes jwtRes = authService.login(loginReq);
         return new ResponseEntity<>(jwtRes, HttpStatus.OK);
     }

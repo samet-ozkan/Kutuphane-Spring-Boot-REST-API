@@ -2,6 +2,7 @@ package com.sametozkan.kutuphane.config.jwt;
 
 import com.sametozkan.kutuphane.entity.model.Account;
 import com.sametozkan.kutuphane.service.AccountService;
+import com.sametozkan.kutuphane.util.AccountType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,10 +25,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Account account = accountService.findByEmail(username);
         List<GrantedAuthority> authorities = new ArrayList<>();
         String type = account.getType();
-        if(Objects.equals(type, "kullanici")){
+        if (Objects.equals(type, AccountType.KULLANICI.getValue())) {
             authorities.add(new SimpleGrantedAuthority("ROLE_KULLANICI"));
-        }
-        else{
+        } else if (Objects.equals(type, AccountType.KUTUPHANE.getValue())) {
             authorities.add(new SimpleGrantedAuthority("ROLE_KUTUPHANE"));
         }
 

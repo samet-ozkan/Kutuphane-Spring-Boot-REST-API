@@ -7,6 +7,7 @@ import com.sametozkan.kutuphane.config.googlebooks.BooksClient;
 import com.sametozkan.kutuphane.entity.dto.request.KitapReq;
 import com.sametozkan.kutuphane.entity.dto.response.KitapRes;
 import com.sametozkan.kutuphane.service.KitapService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,7 +55,7 @@ public class KitapController {
     public ResponseEntity<KitapRes> findByIsbn(@PathVariable Long isbn) {
         KitapRes kitapRes = kitapService.findByIsbn(isbn);
         if (kitapRes == null)
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new EntityNotFoundException("Kitap not found by isbn in database!");
         else
             return new ResponseEntity<>(kitapRes, HttpStatus.OK);
     }

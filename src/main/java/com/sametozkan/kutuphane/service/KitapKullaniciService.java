@@ -153,9 +153,10 @@ public class KitapKullaniciService {
         }
     }
 
+    @Transactional
     public void deleteById(Long id) {
         KitapKullanici kitapKullanici = kitapKullaniciRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        AccessPermission.kullanici(kullaniciRepository, kitapKullanici.getKutuphane().getId());
+        AccessPermission.kullanici(kullaniciRepository, kitapKullanici.getKullanici().getId());
         kitapKullaniciRepository.deleteById(id);
     }
 

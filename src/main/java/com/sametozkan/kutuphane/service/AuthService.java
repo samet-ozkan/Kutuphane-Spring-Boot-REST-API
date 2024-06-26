@@ -7,7 +7,11 @@ import com.sametozkan.kutuphane.entity.dto.request.*;
 import com.sametozkan.kutuphane.entity.dto.response.JwtRes;
 import com.sametozkan.kutuphane.entity.model.Account;
 import com.sametozkan.kutuphane.entity.model.RefreshToken;
+import com.sametozkan.kutuphane.exception.WrongAccountTypeException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -39,27 +43,24 @@ public class AuthService {
         kullaniciService.save(kullaniciRegisterReq.getKullanici(), account);
     }
 
-    public JwtRes login(LoginReq loginReq) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginReq.getEmail(), loginReq.getPassword()));
+    public JwtRes login(LoginReq loginReq) throws WrongAccountTypeException {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginReq.getEmail(), loginReq.getPassword()));
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        if(!userDetails.getType().equals(loginReq.getAccountType()))
+            throw new WrongAccountTypeException("Hesap türü uyumsuz.");
 
-            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-            String jwt = jwtUtils.generateJwtToken(userDetails.getUsername());
-            RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
-            return JwtRes.builder()
-                    .jwt(jwt)
-                    .refreshToken(refreshToken.getToken())
-                    .refreshExpiryDate(refreshToken.getExpiryDate().toEpochMilli())
-                    .accountId(userDetails.getId())
-                    .accountType(userDetails.getType())
-                    .email(userDetails.getUsername())
-                    .build();
-        } catch (AuthenticationException e) {
-            e.printStackTrace();
-            throw e;
-        }
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwt = jwtUtils.generateJwtToken(userDetails.getUsername());
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
+        return JwtRes.builder()
+                .jwt(jwt)
+                .refreshToken(refreshToken.getToken())
+                .refreshExpiryDate(refreshToken.getExpiryDate().toEpochMilli())
+                .accountId(userDetails.getId())
+                .accountType(userDetails.getType())
+                .email(userDetails.getUsername())
+                .build();
     }
 
 }
