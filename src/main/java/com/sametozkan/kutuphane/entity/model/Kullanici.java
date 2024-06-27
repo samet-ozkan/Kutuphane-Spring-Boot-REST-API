@@ -4,6 +4,7 @@ import com.sametozkan.kutuphane.entity.dto.request.AccountReq;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -26,6 +27,15 @@ public class Kullanici extends BaseEntity {
 
     @Column(name = "soyadi", nullable = false)
     private String soyadi;
+
+    @Column(name = "adres", nullable = false)
+    private String adres;
+
+    @Column(name = "telefon_numarasi", nullable = false)
+    private String telefonNumarasi;
+
+    @Column(name = "dogum_tarihi", nullable = false)
+    private LocalDate dogumTarihi;
 
     @OneToOne
     @JoinColumn(name = "account_id")

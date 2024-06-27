@@ -1,6 +1,7 @@
 package com.sametozkan.kutuphane.exception;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
@@ -13,9 +14,14 @@ import java.nio.file.AccessDeniedException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public String handleException(Exception e) {
+    public void handleException(Exception e) {
         e.printStackTrace();
-        return "Bir hata oluştu. Detaylar için logları kontrol edin.";
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Void> handleDataIntegrityViolationException(DataIntegrityViolationException e){
+        e.printStackTrace();
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(AuthenticationException.class)
