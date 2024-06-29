@@ -7,4 +7,5 @@ public class KutuphaneRegisterReq {
 
     private AccountReq account;
     private KutuphaneReq kutuphane;
+    private String dogrulamaKodu;
 }

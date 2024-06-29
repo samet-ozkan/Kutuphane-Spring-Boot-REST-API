@@ -42,10 +42,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler(WrongAccountTypeException.class)
-    public ResponseEntity<Void> handleWrongAccountTypeException(WrongAccountTypeException e) {
+    @ExceptionHandler(InvalidAccountTypeException.class)
+    public ResponseEntity<Void> handleInvalidAccountTypeException(InvalidAccountTypeException e) {
         e.printStackTrace();
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(InvalidVerificationCodeException.class)
+    public ResponseEntity<Void> handleInvalidVerificationCodeException(InvalidVerificationCodeException e){
+        e.printStackTrace();
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
 }

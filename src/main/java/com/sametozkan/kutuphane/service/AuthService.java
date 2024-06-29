@@ -7,15 +7,13 @@ import com.sametozkan.kutuphane.entity.dto.request.*;
 import com.sametozkan.kutuphane.entity.dto.response.JwtRes;
 import com.sametozkan.kutuphane.entity.model.Account;
 import com.sametozkan.kutuphane.entity.model.RefreshToken;
-import com.sametozkan.kutuphane.exception.WrongAccountTypeException;
+import com.sametozkan.kutuphane.exception.InvalidAccountTypeException;
+import com.sametozkan.kutuphane.exception.InvalidVerificationCodeException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +29,14 @@ public class AuthService {
     private final KullaniciService kullaniciService;
     private final RefreshTokenService refreshTokenService;
 
+    @Value("${verification.code}")
+    private String verificationCode;
+
+
     @Transactional
-    public void registerKutuphane(KutuphaneRegisterReq kutuphaneRegisterReq) throws JsonProcessingException {
+    public void registerKutuphane(KutuphaneRegisterReq kutuphaneRegisterReq) throws JsonProcessingException, InvalidVerificationCodeException {
+        if(!kutuphaneRegisterReq.getDogrulamaKodu().equals(verificationCode))
+            throw new InvalidVerificationCodeException();
         Account account = accountService.save(kutuphaneRegisterReq.getAccount());
         kutuphaneService.save(kutuphaneRegisterReq.getKutuphane(), account);
     }
@@ -43,12 +47,12 @@ public class AuthService {
         kullaniciService.save(kullaniciRegisterReq.getKullanici(), account);
     }
 
-    public JwtRes login(LoginReq loginReq) throws WrongAccountTypeException {
+    public JwtRes login(LoginReq loginReq) throws InvalidAccountTypeException {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginReq.getEmail(), loginReq.getPassword()));
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
         if(!userDetails.getType().equals(loginReq.getAccountType()))
-            throw new WrongAccountTypeException("Hesap türü uyumsuz.");
+            throw new InvalidAccountTypeException("Hesap türü uyumsuz.");
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(userDetails.getUsername());

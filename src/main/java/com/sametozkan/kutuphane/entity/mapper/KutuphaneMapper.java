@@ -17,7 +17,6 @@ public class KutuphaneMapper {
 
     private final KitapMapper kitapMapper;
     private final AccountMapper accountMapper;
-    private final AccountRepository accountRepository;
 
     public Kutuphane convertToEntity(KutuphaneReq kutuphaneReq) {
         return Kutuphane.builder()
@@ -25,6 +24,7 @@ public class KutuphaneMapper {
                 .adresi(kutuphaneReq.getAdresi())
                 .sehir(kutuphaneReq.getSehir())
                 .teslimSuresi(kutuphaneReq.getTeslimSuresi())
+                .telefonNumarasi(kutuphaneReq.getTelefonNumarasi())
                 .chatGptYorumu(kutuphaneReq.getChatGptYorumu())
                 .build();
     }
@@ -36,6 +36,7 @@ public class KutuphaneMapper {
                 .adresi(kutuphane.getAdresi())
                 .sehir(kutuphane.getSehir())
                 .teslimSuresi(kutuphane.getTeslimSuresi())
+                .telefonNumarasi(kutuphane.getTelefonNumarasi())
                 .account(accountMapper.convertToResponse(kutuphane.getAccount()))
                 .kitaplar(kitapMapper.convertToResponse(kutuphane.getKitaplar().stream().map(KitapKutuphane::getKitap).toList()))
                 .chatGptYorumu(kutuphane.getChatGptYorumu())

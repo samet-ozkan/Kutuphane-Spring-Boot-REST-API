@@ -8,5 +8,7 @@ public class KutuphaneReq {
     private String adresi;
     private String sehir;
     private Integer teslimSuresi;
+    private String telefonNumarasi;
+    private String dogrulamaKodu;
     private String chatGptYorumu;
 }
