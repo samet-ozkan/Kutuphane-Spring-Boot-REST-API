@@ -23,5 +23,4 @@ public class KitapReq {
     private String aciklama;
     private List<YazarReq> yazarlar;
     private List<TurReq> turler;
-    private String chatGptYorumu;
 }

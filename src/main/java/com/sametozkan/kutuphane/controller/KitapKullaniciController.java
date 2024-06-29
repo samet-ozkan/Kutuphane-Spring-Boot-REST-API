@@ -1,26 +1,16 @@
 package com.sametozkan.kutuphane.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.sametozkan.kutuphane.config.jwt.UserDetailsImpl;
 import com.sametozkan.kutuphane.entity.dto.request.KitapKullaniciReq;
 import com.sametozkan.kutuphane.entity.dto.response.KitapKullaniciRes;
-import com.sametozkan.kutuphane.entity.dto.response.KitapOnerisiRes;
-import com.sametozkan.kutuphane.entity.dto.response.KutuphaneRes;
-import com.sametozkan.kutuphane.entity.model.Kutuphane;
 import com.sametozkan.kutuphane.service.KitapKullaniciService;
 import com.sametozkan.kutuphane.service.KutuphaneService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/kitap-kullanici")
@@ -82,12 +72,6 @@ public class KitapKullaniciController {
     public ResponseEntity<List<KitapKullaniciRes>> findByKutuphaneId(@PathVariable Long accountId) {
         List<KitapKullaniciRes> kitapKullaniciResList = kitapKullaniciService.findByKutuphaneId(accountId);
         return new ResponseEntity<>(kitapKullaniciResList, HttpStatus.OK);
-    }
-
-    @GetMapping("/kitap-onerileri/{accountId}")
-    public ResponseEntity<List<KitapOnerisiRes>> fetchKitapOnerileri(@PathVariable Long accountId) throws JsonProcessingException {
-        List<KitapOnerisiRes> kitapOnerisiResList = kitapKullaniciService.fetchKitapOnerileri(accountId);
-        return new ResponseEntity<>(kitapOnerisiResList, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_KUTUPHANE')")

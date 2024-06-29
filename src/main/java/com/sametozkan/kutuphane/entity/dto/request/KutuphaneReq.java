@@ -10,5 +10,4 @@ public class KutuphaneReq {
     private Integer teslimSuresi;
     private String telefonNumarasi;
     private String dogrulamaKodu;
-    private String chatGptYorumu;
 }

@@ -1,8 +1,6 @@
 package com.sametozkan.kutuphane.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sametozkan.kutuphane.config.chatgpt.GptClient;
 import com.sametozkan.kutuphane.config.googlebooks.BooksClient;
 import com.sametozkan.kutuphane.entity.dto.request.KitapReq;
 import com.sametozkan.kutuphane.entity.dto.response.KitapRes;
@@ -23,7 +21,6 @@ public class KitapController {
 
     private final KitapService kitapService;
     private final BooksClient booksClient;
-    private final GptClient gptClient;
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_KUTUPHANE')")
     @PostMapping

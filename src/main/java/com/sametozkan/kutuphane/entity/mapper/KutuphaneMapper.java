@@ -25,7 +25,6 @@ public class KutuphaneMapper {
                 .sehir(kutuphaneReq.getSehir())
                 .teslimSuresi(kutuphaneReq.getTeslimSuresi())
                 .telefonNumarasi(kutuphaneReq.getTelefonNumarasi())
-                .chatGptYorumu(kutuphaneReq.getChatGptYorumu())
                 .build();
     }
 
@@ -39,7 +38,6 @@ public class KutuphaneMapper {
                 .telefonNumarasi(kutuphane.getTelefonNumarasi())
                 .account(accountMapper.convertToResponse(kutuphane.getAccount()))
                 .kitaplar(kitapMapper.convertToResponse(kutuphane.getKitaplar().stream().map(KitapKutuphane::getKitap).toList()))
-                .chatGptYorumu(kutuphane.getChatGptYorumu())
                 .build();
     }
 

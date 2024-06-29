@@ -1,10 +1,7 @@
 package com.sametozkan.kutuphane.config.googlebooks;
 
-import com.sametozkan.kutuphane.config.chatgpt.GptClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.support.WebClientAdapter;

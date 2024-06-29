@@ -17,5 +17,4 @@ public class KutuphaneRes {
     private List<KitapRes> kitaplar;
     private Integer teslimSuresi;
     private String telefonNumarasi;
-    private String chatGptYorumu;
 }

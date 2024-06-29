@@ -3,9 +3,6 @@ package com.sametozkan.kutuphane.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.sametozkan.kutuphane.config.chatgpt.ChatRequest;
-import com.sametozkan.kutuphane.config.chatgpt.ChatResponse;
-import com.sametozkan.kutuphane.config.chatgpt.GptClient;
 import com.sametozkan.kutuphane.config.googlebooks.BookResponse;
 import com.sametozkan.kutuphane.config.googlebooks.BooksClient;
 import com.sametozkan.kutuphane.config.googlebooks.VolumeInfo;
@@ -43,38 +40,9 @@ public class KitapService {
     private final TurService turService;
     private final KitapTurService kitapTurService;
     private final BooksClient booksClient;
-    private final GptClient gptClient;
 
     @Transactional
-    public Long save(KitapReq kitapReq) throws JsonProcessingException {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            String jsonInput = objectMapper.writeValueAsString(kitapReq);
-
-            ChatResponse response = gptClient.chat(new ChatRequest(
-                    "Lütfen aşağıdaki JSON'daki yazım yanlışlarını düzelt ve sonucu tekrar JSON formatında döndür. Düzeltmelerde şu kurallara dikkat et:" +
-                            "\n1. Yayın tarihi Türkiye tarih formatında olsun (gün/ay/yıl). Tam tarih belirtilmemişse sadece yılı al." +
-                            "\n2. Dil kısmında kısaltma kullanılmışsa, uzun halini yaz." +
-                            "\n3. Büyük/küçük harf kurallarına dikkat et." +
-                            "\n4. Noktalama işaretlerine dikkat et." +
-                            "\n5. Başlık haricindeki diğer alanlar yabancı dilde yazılmışsa, Türkçe'ye çevir. Başlık yabancı dilde olabilir." +
-                            "\n6. Boş bir alan varsa doldur." +
-                            "\n7. chatGptYorumu alanına bu kitap hakkındaki düşüncelerini yaz. Bu kısım boş kalmamalıdır." +
-                            "\n\nDüzeltilecek JSON:" + jsonInput +
-                            "\n\nLütfen düzeltilmiş JSON'u sadece JSON formatında döndür."
-            ));
-
-            String correctedJson = response.choices().get(0).message().content();
-
-            kitapReq = objectMapper.readValue(correctedJson, KitapReq.class);
-
-            System.out.println("JSON: " + correctedJson);
-
-        } catch (Exception e) {
-            System.out.println("Hata: " + e.getMessage());
-            throw e;
-        }
-
+    public Long save(KitapReq kitapReq) {
         Long kitapId = kitapRepository.save(kitapMapper.convertToEntity(kitapReq)).getId();
         List<Yazar> yazarlar = new ArrayList<>(yazarService.saveAll(kitapReq.getYazarlar()));
         List<KitapYazarReq> kitapYazarReqList = new ArrayList<>();

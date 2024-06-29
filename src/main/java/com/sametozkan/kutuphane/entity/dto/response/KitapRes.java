@@ -16,7 +16,6 @@ public class KitapRes {
     private String yayinTarihi;
     private String dil;
     private Integer sayfaSayisi;
-    private String chatGptYorumu;
     private String aciklama;
     private List<YazarRes> yazarlar;
     private List<TurRes> turler;

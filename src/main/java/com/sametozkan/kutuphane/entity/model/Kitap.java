@@ -34,9 +34,6 @@ public class Kitap extends BaseEntity {
     @Column(name = "sayfa_sayisi", nullable = false)
     private Integer sayfaSayisi;
 
-    @Column(name = "chatgpt_yorumu", nullable = false)
-    private String chatGptYorumu;
-
     @Column(name = "aciklama", nullable = false)
     private String aciklama;
 
