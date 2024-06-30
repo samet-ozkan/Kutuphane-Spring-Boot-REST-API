@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,4 +28,7 @@ public interface KitapKullaniciRepository extends JpaRepository<KitapKullanici, 
 
     @Query(value = "SELECT * FROM kitap_kullanici WHERE kutuphane_id = :kutuphaneId AND onaylandi = true AND iade_durumu = false", nativeQuery = true)
     Optional<List<KitapKullanici>> teslimEdilmeyenler(@Param("kutuphaneId") Long kutuphaneId);
+
+    @Query(value = "SELECT * FROM kitap_kullanici ORDER BY id DESC LIMIT :limit", nativeQuery = true)
+    List<KitapKullanici> fetchRecentRecords(@Param("limit") int limit);
 }

@@ -8,6 +8,7 @@ import com.sametozkan.kutuphane.entity.repository.KitapKullaniciRepository;
 import com.sametozkan.kutuphane.entity.repository.KitapRepository;
 import com.sametozkan.kutuphane.entity.repository.KullaniciRepository;
 import com.sametozkan.kutuphane.entity.repository.KutuphaneRepository;
+import com.sametozkan.kutuphane.util.DateUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,13 +19,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class KitapKullaniciMapper {
 
-    private final KitapKullaniciRepository kitapKullaniciRepository;
     private final KitapRepository kitapRepository;
     private final KullaniciRepository kullaniciRepository;
     private final KutuphaneRepository kutuphaneRepository;
     private final KitapMapper kitapMapper;
     private final KullaniciMapper kullaniciMapper;
     private final KutuphaneMapper kutuphaneMapper;
+    private final DateUtil dateUtil;
 
     public KitapKullanici convertToEntity(KitapKullaniciReq kitapKullaniciReq) {
         Kullanici kullanici = kullaniciRepository.findByAccountId(kitapKullaniciReq.getKullaniciAccountId()).orElseThrow(EntityNotFoundException::new);
@@ -43,9 +44,9 @@ public class KitapKullaniciMapper {
                 .kullanici(kullaniciMapper.convertToResponse(kitapKullanici.getKullanici()))
                 .kutuphane(kutuphaneMapper.convertToResponse(kitapKullanici.getKutuphane()))
                 .iadeDurumu(kitapKullanici.getIadeDurumu())
-                .alimTarihi(kitapKullanici.getAlimTarihi())
-                .teslimTarihi(kitapKullanici.getTeslimTarihi())
-                .createdTime(kitapKullanici.getCreatedTime())
+                .alimTarihi(kitapKullanici.getAlimTarihi() != null ? dateUtil.toString(kitapKullanici.getAlimTarihi()) : null)
+                .teslimTarihi(kitapKullanici.getTeslimTarihi() != null ? dateUtil.toString(kitapKullanici.getTeslimTarihi()) : null)
+                .createdTime(dateUtil.toString(kitapKullanici.getCreatedTime()))
                 .iadeDurumu(kitapKullanici.getIadeDurumu())
                 .onaylandi(kitapKullanici.getOnaylandi())
                 .build();

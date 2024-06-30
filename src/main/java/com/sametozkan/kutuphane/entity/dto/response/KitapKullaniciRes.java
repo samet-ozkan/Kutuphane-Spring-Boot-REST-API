@@ -12,9 +12,9 @@ public class KitapKullaniciRes {
     private KitapRes kitap;
     private KutuphaneRes kutuphane;
     private KullaniciRes kullanici;
-    private LocalDateTime alimTarihi;
-    private LocalDateTime teslimTarihi;
-    private LocalDateTime createdTime;
+    private String alimTarihi;
+    private String teslimTarihi;
+    private String createdTime;
     private Boolean iadeDurumu;
     private Boolean onaylandi;
 }

@@ -5,6 +5,7 @@ import com.sametozkan.kutuphane.entity.dto.response.KitapKullaniciRes;
 import com.sametozkan.kutuphane.service.KitapKullaniciService;
 import com.sametozkan.kutuphane.service.KutuphaneService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -99,6 +100,12 @@ public class KitapKullaniciController {
     @GetMapping("/teslim-edilmeyenler/{kutuphaneAccountId}")
     public ResponseEntity<List<KitapKullaniciRes>> teslimEdilmeyenler(@PathVariable Long kutuphaneAccountId) {
         List<KitapKullaniciRes> kitapKullaniciResList = kitapKullaniciService.teslimEdilmeyenler(kutuphaneAccountId);
+        return new ResponseEntity<>(kitapKullaniciResList, HttpStatus.OK);
+    }
+
+    @GetMapping("/recent")
+    public ResponseEntity<List<KitapKullaniciRes>> fetchRecentRecords(@RequestParam(defaultValue = "3") int limit){
+        List<KitapKullaniciRes> kitapKullaniciResList = kitapKullaniciService.fetchRecentRecords(limit);
         return new ResponseEntity<>(kitapKullaniciResList, HttpStatus.OK);
     }
 

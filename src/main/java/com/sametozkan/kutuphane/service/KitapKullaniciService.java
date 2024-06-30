@@ -106,7 +106,11 @@ public class KitapKullaniciService {
         Kutuphane kutuphane = kutuphaneRepository.findByAccountId(kutuphaneAccountId).orElseThrow(EntityNotFoundException::new);
         List<KitapKullanici> kitapKullaniciList = kitapKullaniciRepository.teslimEdilmeyenler(kutuphane.getId()).orElseThrow(EntityNotFoundException::new);
         return kitapKullaniciMapper.convertToResponse(kitapKullaniciList);
+    }
 
+    public List<KitapKullaniciRes> fetchRecentRecords(int limit){
+        List<KitapKullanici> kitapKullaniciList = kitapKullaniciRepository.fetchRecentRecords(limit);
+        return kitapKullaniciMapper.convertToResponse(kitapKullaniciList);
     }
 
     @Transactional
