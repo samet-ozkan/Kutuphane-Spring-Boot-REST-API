@@ -10,6 +10,6 @@ import java.util.Optional;
 
 public interface KutuphaneYorumRepository extends JpaRepository<KutuphaneYorum, Long> {
 
-    @Query(value = "SELECT * FROM kutuphane_yorum WHERE kutuphane_id = :kutuphaneId", nativeQuery = true)
+    @Query(value = "SELECT * FROM kutuphane_yorum WHERE kutuphane_id = :kutuphaneId ORDER BY created_time DESC", nativeQuery = true)
     Optional<List<KutuphaneYorum>> findByKutuphaneId(Long kutuphaneId);
 }

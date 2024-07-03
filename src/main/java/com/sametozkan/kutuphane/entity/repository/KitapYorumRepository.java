@@ -10,6 +10,6 @@ import java.util.Optional;
 
 public interface KitapYorumRepository extends JpaRepository<KitapYorum, Long> {
 
-    @Query(value = "SELECT * FROM kitap_yorum WHERE kitap_id = :kitapId", nativeQuery = true)
+    @Query(value = "SELECT * FROM kitap_yorum WHERE kitap_id = :kitapId ORDER BY created_time DESC", nativeQuery = true)
     Optional<List<KitapYorum>> findByKitapId(Long kitapId);
 }

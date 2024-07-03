@@ -65,10 +65,7 @@ public class WebSecurityConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry
                         .addMapping("/**")
-                        .allowedOrigins("https://localhost:4200", "http://localhost", "http://localhost:8080",
-                                "https://localhost:8080", "http://localhost:4200", "http://10.0.2.2", "http://10.0.2.2:8080",
-                                "http://192.168.111.58", "http://192.168.111.58:8080", "https://192.168.111.58",
-                                "https://192.168.111.58:8080")
+                        .allowedOrigins("*")
                         .allowedMethods("*");
             }
         };
