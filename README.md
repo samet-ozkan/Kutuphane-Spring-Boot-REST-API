@@ -1,5 +1,7 @@
-# Kutuphane-Rest-API-Spring-Boot
+# Kutuphane-Spring-Boot-REST-API
 Java Spring Boot (Layered Architecture) Kütüphane REST API
+
+__KOTLIN APP:__ [https://github.com/samet-ozkan/Android-Kutuphane-App-Kotlin](https://github.com/samet-ozkan/Android-Kutuphane-App-Kotlin)
 
 ---
 ## Kullanılan Teknolojiler
@@ -7,7 +9,6 @@ Java Spring Boot (Layered Architecture) Kütüphane REST API
 * Spring Security
 * JSON Web Token
 * Global Exception Handler
-* [Google Books API](https://developers.google.com/books)
 
 ---
 ## ER Diagram
