@@ -9,5 +9,4 @@ public class KutuphaneReq {
     private String sehir;
     private Integer teslimSuresi;
     private String telefonNumarasi;
-    private String dogrulamaKodu;
 }

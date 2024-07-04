@@ -24,7 +24,7 @@ public class KitapController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_KUTUPHANE')")
     @PostMapping
-    public ResponseEntity<Long> save(@RequestBody KitapReq kitapReq) throws JsonProcessingException {
+    public ResponseEntity<Long> save(@RequestBody KitapReq kitapReq) {
         Long kitapId = kitapService.save(kitapReq);
         return new ResponseEntity<>(kitapId, HttpStatus.OK);
     }

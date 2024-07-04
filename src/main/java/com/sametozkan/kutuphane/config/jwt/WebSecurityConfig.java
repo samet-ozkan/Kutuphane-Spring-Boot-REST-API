@@ -80,7 +80,7 @@ public class WebSecurityConfig {
             authz
                     .requestMatchers("/api/auth/**").permitAll()
 
-                    .anyRequest().authenticated();
+                    .anyRequest().permitAll();
         });
 
 

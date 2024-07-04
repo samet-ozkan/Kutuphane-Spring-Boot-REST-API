@@ -25,10 +25,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Account account = accountService.findByEmail(username);
         List<GrantedAuthority> authorities = new ArrayList<>();
         String type = account.getType();
+        System.out.println("Type: " + type);
         if (Objects.equals(type, AccountType.KULLANICI.getValue())) {
             authorities.add(new SimpleGrantedAuthority("ROLE_KULLANICI"));
         } else if (Objects.equals(type, AccountType.KUTUPHANE.getValue())) {
             authorities.add(new SimpleGrantedAuthority("ROLE_KUTUPHANE"));
+        }
+        else if(Objects.equals(type, AccountType.ADMIN.getValue())){
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
 
         return UserDetailsImpl.build(account, authorities);

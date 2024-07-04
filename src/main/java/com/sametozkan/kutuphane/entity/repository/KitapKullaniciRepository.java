@@ -29,6 +29,6 @@ public interface KitapKullaniciRepository extends JpaRepository<KitapKullanici, 
     @Query(value = "SELECT * FROM kitap_kullanici WHERE kutuphane_id = :kutuphaneId AND onaylandi = true AND iade_durumu = false", nativeQuery = true)
     Optional<List<KitapKullanici>> teslimEdilmeyenler(@Param("kutuphaneId") Long kutuphaneId);
 
-    @Query(value = "SELECT * FROM kitap_kullanici ORDER BY id DESC LIMIT :limit", nativeQuery = true)
+    @Query(value = "SELECT * FROM kitap_kullanici WHERE onaylandi = true ORDER BY id DESC LIMIT :limit ", nativeQuery = true)
     List<KitapKullanici> fetchRecentRecords(@Param("limit") int limit);
 }

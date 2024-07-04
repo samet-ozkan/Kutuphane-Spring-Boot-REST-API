@@ -6,7 +6,8 @@ import lombok.Getter;
 @Getter
 public enum AccountType {
     KULLANICI("kullanici"),
-    KUTUPHANE("kutuphane");
+    KUTUPHANE("kutuphane"),
+    ADMIN("admin");
 
     private final String value;
 

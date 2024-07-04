@@ -27,7 +27,9 @@ public final class AccessPermission {
 
     public static boolean kutuphane(KutuphaneRepository kutuphaneRepository, Long kutuphaneId) {
         UserDetailsImpl authenticatedUser = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (!authenticatedUser.getAuthorities().contains("ROLE_ADMIN")) {
+        boolean isAdmin = authenticatedUser.getAuthorities().stream()
+                .anyMatch(authority -> authority.getAuthority().equals("ROLE_ADMIN"));
+        if (!isAdmin) {
             Kutuphane kutuphane = kutuphaneRepository.findByAccountId(authenticatedUser.getId()).orElseThrow(EntityNotFoundException::new);
             if (!Objects.equals(kutuphane.getId(), kutuphaneId)) {
                 throw new AccessDeniedException("Erişim izni yok.");
